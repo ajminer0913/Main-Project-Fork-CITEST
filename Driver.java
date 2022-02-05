@@ -20,6 +20,9 @@ public class Driver {
         int quantity;
         double wholesale, salePrice;
 
+        System.out.print("Enter file name: ");
+        fileName = userIn.next();
+
         /**
          * input loop for user to navigate through
          * menu and options
