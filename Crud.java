@@ -35,9 +35,48 @@ public class Crud {
 
     public void read() {
     }
-
-    public void update() {
-    }
+    /**
+     * An Update method that updates the quantity of a product given
+     * its product ID
+     * @param id product ID
+     * @param fileName Location of file
+     * @throws Exception
+     */
+	public void update(String id, String fileName)throws Exception {
+        Scanner sc = new Scanner(new FileInputStream(fileName));
+        String returnLine = null;
+        int dataLocation = 0;
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String data[] = line.split(",");
+            String current = data[0];
+            if (current.equals(id)) {
+                String quantity = data[1];
+                String wholesale = data[2];
+                String salePrice = data[3];
+                String supId = data[4];
+                
+                
+                Scanner myObj = new Scanner(System.in);
+                System.out.println("Enter New Amount");
+                
+                String newData = myObj.nextLine();
+                quantity = newData;
+                returnLine = current + "," + quantity + "," + wholesale + ","+ salePrice + ","+ supId;
+                break;
+            }
+            dataLocation += 1;
+        }
+        sc.close();
+        delete(id, fileName);
+        FileWriter csvFile = new FileWriter(fileName, true);
+        csvFile.append(returnLine);
+        
+        
+        csvFile.close();
+        System.out.println("Product ID: "+ id + " Is Updated");
+        	
+        }
     /**
      * A method that takes in the filename and product ID and deletes
      * the data at the ID's location
