@@ -30,11 +30,99 @@ public class Crud {
         return firstInstance;
     }
 
-    public void create() {
+    /**
+    * Method to create new entry on CSV file.
+    * Gets user input and adds data to new line.
+    * @ThrowsIOException
+    *@Param fileName
+    */
+    public static void create(String fileName) throws IOException{
+                 
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Input Product ID: ");
+        String id = sc.nextInt();
+        System.out.println("Input Quantity: ");
+        String quantity = sc.nextLine();
+        System.out.println("Input Wholesale Price: ");
+        String wholesale = sc.nextDouble();
+        System.out.println("Input Sales Price: ");
+        String salesPrice = sc.nextDouble();
+        System.out.println("Input Supplier ID: ");
+        String supplierId = sc.nextLine();
+        
+        try{
+        
+          FileWriter writer = new FileWriter(fileName, true);
+
+            writer.append(id);
+            writer.append(",");
+            writer.append(quantity);
+            writer.append(",");
+            writer.append(wholesale);
+            writer.append(",");
+            writer.append(salesPrice);
+            writer.append(",");
+            writer.append(supplierId);
+            writer.append('\n');
+            writer.close();
+        
+        }
+        
+        catch(IOException writer){
+        
+           System.out.println("IOExcpetion, data maybe incorrect");
+        
+        }
+        
+        sc.close();
+        
+   }
+
+
+    /**
+    *Read method takes product Id as input, uses reader objects to 
+    *find product Id and print out row
+    *@throws FileNotFoundException and IOException
+    *@Param: fileName
+    */
+    public static void read(String fileName) throws FileNotFoundException, IOException {
+
+        Scanner sc = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
+        int dataFound = 0;
+        System.out.println("Input Product ID: ");
+        String productId = sc.nextLine();
+        String[] row = new String[5];
+        String line;
+    
+        while ((line = br.readLine()) != null){
+         
+            row = line.split(",");
+        
+            if (row[0].equals(productId)){
+
+                for (int x = 0; x < 5; x += 1){
+            
+                    System.out.print(row[x] + " ");
+
+                }
+            
+                dataFound = 1;
+
+            }
+        
+        }
+    
+        if (dataFound == 0){
+    
+            System.out.println("Data Not Found");
+    
+        }
+    
+        br.close();
+
     }
 
-    public void read() {
-    }
     /**
      * An Update method that updates the quantity of a product given
      * its product ID
