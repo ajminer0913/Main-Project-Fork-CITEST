@@ -39,14 +39,14 @@ public class Crud {
     public static void create(String fileName) throws IOException{
                  
         Scanner sc = new Scanner(System.in);
-        System.out.println("Input Product ID: ");
-        String id = sc.nextInt();
+	System.out.println("Input Product ID: ");
+        String id = sc.nextLine();
         System.out.println("Input Quantity: ");
-        String quantity = sc.nextLine();
+        int quantity = sc.nextLine();
         System.out.println("Input Wholesale Price: ");
-        String wholesale = sc.nextDouble();
+        double wholesale = sc.nextDouble();
         System.out.println("Input Sales Price: ");
-        String salesPrice = sc.nextDouble();
+        double salesPrice = sc.nextDouble();
         System.out.println("Input Supplier ID: ");
         String supplierId = sc.nextLine();
         
@@ -93,6 +93,7 @@ public class Crud {
         System.out.println("Input Product ID: ");
         String productId = sc.nextLine();
         String[] row = new String[5];
+	String[] row2 = {"Product Id:", "Quantity:", "Wholesale Cost:", "Sale Price:", "Supplier Id:"};
         String line;
     
         while ((line = br.readLine()) != null){
@@ -103,7 +104,7 @@ public class Crud {
 
                 for (int x = 0; x < 5; x += 1){
             
-                    System.out.print(row[x] + " ");
+                    System.out.println(row2[x] + " " + row[x] + " ");
 
                 }
             
