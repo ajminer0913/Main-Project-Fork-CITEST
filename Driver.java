@@ -2,7 +2,7 @@ import java.util.*;
 
 /**
  * Driver class for the program
- * 
+ *
  */
 
 public class Driver {
@@ -12,58 +12,59 @@ public class Driver {
         // Creates new instance on start up
         Crud crud = Crud.getInstance();
 
-        Scanner userIn = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         String fileName;
+        String id;
 
         int optionNum = 0;
-        String id, supportId;
-        int quantity;
-        double wholesale, salePrice;
 
         System.out.print("Enter file name: ");
-        fileName = userIn.next();
-
+        fileName = sc.nextLine();
         /**
          * input loop for user to navigate through
-         * menu and options
+         * menu and options and call each specific function
          */
         while (optionNum != 5) {
             menu();
             System.out.print("Enter option #: ");
-
-            optionNum = userIn.nextInt();
+            optionNum = sc.nextInt();
 
             switch (optionNum) {
                 case 1:
-                    System.out.print("Enter id number: ");
-                    id = userIn.next();
-                    System.out.print("Enter Quantity: ");
-                    quantity = userIn.nextInt();
-                    System.out.print("Enter Wholesale Cost: ");
-                    wholesale = userIn.nextDouble();
-                    System.out.print("Enter Sales Price: ");
-                    salePrice = userIn.nextDouble();
-                    System.out.print("Enter Support ID: ");
-                    supportId = userIn.next();
-                    crud.create(); // will update later
+                    try {
+                        crud.create(fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case 2:
-                    System.out.print("Enter id: ");
-                    id = userIn.next();
-                    crud.read(); // will update later
+                    try {
+                        crud.read(fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     break;
 
                 case 3:
                     System.out.print("Enter id: ");
-                    id = userIn.next();
-                    crud.update(); // will update later
+                    id = sc.next();
+                    try {
+                        crud.update(id, fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case 4:
                     System.out.print("Enter id: ");
-                    id = userIn.next();
-                    crud.delete();
+                    id = sc.next();
+                    try {
+                        crud.delete(id, fileName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case 5:
