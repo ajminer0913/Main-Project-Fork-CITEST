@@ -2,9 +2,10 @@
 /**
  * Program to perform CRUD (Create, Read, Update, Destroy) operations on excel/csv files
  *
- * @authors Sparkling Barracudas
+ * @authors Spectacular Barracudas
  */
 
+import java.sql.*;
 import java.io.*;
 import java.util.Scanner;
 
@@ -31,13 +32,11 @@ public class Crud {
     }
 
     /**
-     * Method to create new entry on CSV file.
-     * Gets user input and adds data to new line.
-     *
-     * @ThrowsIOException
-     * @Param fileName
+     * SQL Query that create a new entry
+     * 
+     * @param c Database connection to be used
      */
-    public static void create(String fileName) throws IOException {
+    public void create(Connection c) {
 
         Scanner sc = new Scanner(System.in);
         System.out.println("Input Product ID: ");
@@ -52,158 +51,155 @@ public class Crud {
         String supplierId = sc.next();
 
         try {
+            Statement stmt = null;
 
-            FileWriter writer = new FileWriter(fileName, true);
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
 
-            writer.append(id + "," + quantity + "," + wholesale + "," + salesPrice + "," + supplierId + '\n');
-            writer.close();
+            String out = "INSERT INTO Products (product_id,quantity,wholesale_cost, sale_price, supplier_id)"
+                    + "VALUES('" + id + "',"
+                    + Integer.parseInt(quantity) + ","
+                    + Float.parseFloat(wholesale) + "," + Float.parseFloat(salesPrice) + ",'" + supplierId + "' );";
+            stmt.executeUpdate(out);
 
+            stmt.close();
+            c.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
 
-        catch (IOException writer) {
-
-            System.out.println("IOExcpetion, data maybe incorrect");
-
-        }
-
+        System.out.println("Records successfully created");
     }
 
     /**
-     * Read method takes product Id as input, uses reader objects to
-     * find product Id and print out row
-     *
-     * @throws FileNotFoundException and IOException
-     * @Param: fileName
+     * SQL Query to read product id
+     * 
+     * @param c Database connection to be used
      */
-    public static void read(String fileName) throws FileNotFoundException, IOException {
+    public void read(Connection c, String productId) {
+
+        try {
+            Statement stmt = null;
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
+
+            ResultSet rs = stmt.executeQuery("Select * FROM Products WHERE product_id = '" + productId + "';");
+
+            while (rs.next()) {
+                String idRet = rs.getString("product_id");
+                int quantRet = rs.getInt("quantity");
+                float costRet = rs.getFloat("wholesale_cost");
+                float saleRet = rs.getFloat("sale_price");
+                String supRet = rs.getString("supplier_id");
+
+                System.out.println("");
+                System.out.println("ID: " + idRet);
+                System.out.println("QUANTITY: " + quantRet);
+                System.out.println("WHOLESALE COST " + costRet);
+                System.out.println("SALE PRICE: " + saleRet);
+                System.out.println("SUPPLIER ID: " + supRet);
+                System.out.println("");
+            }
+
+            rs.close();
+            stmt.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    /**
+     * SQL Query to update a specified product id
+     * 
+     * @param c  Database connection to be used
+     * @param id Id to look up
+     */
+    public void update(Connection c, String id) {
 
         Scanner sc = new Scanner(System.in);
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        int dataFound = 0;
-        System.out.println("Input Product ID: ");
-        String productId = sc.nextLine();
-        String[] row = new String[5];
-        String[] row2 = { "Product Id:", "Quantity:", "Wholesale Cost:", "Sale Price:", "Supplier Id:" };
-        String line;
+        System.out.println("Input new quantity: ");
+        String quantity = sc.next();
+        System.out.println("Input new wholesale price: ");
+        String wholesale = sc.next();
+        System.out.println("Input new sales price: ");
+        String salesPrice = sc.next();
+        System.out.println("Input new supplier ID: ");
+        String supplierId = sc.next();
 
-        while ((line = br.readLine()) != null) {
+        try {
+            Statement stmt = null;
 
-            row = line.split(",");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
 
-            if (row[0].equals(productId)) {
+            String out = "UPDATE products SET quantity =" + quantity + ", wholesale_cost = " + wholesale
+                    + ", sale_price = " + salesPrice + ", supplier_id = '" + supplierId + "' WHERE product_id = '" + id
+                    + "';";
 
-                for (int x = 0; x < 5; x += 1) {
+            stmt.executeUpdate(out);
+            stmt.close();
+            c.commit();
 
-                    System.out.println(row2[x] + " " + row[x] + " ");
+            System.out.println(id + "Successfully updated!");
 
-                }
-
-                dataFound = 1;
-
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
-
-        if (dataFound == 0) {
-
-            System.out.println("Data Not Found");
-
-        }
-
-        br.close();
     }
 
     /**
-     * An Update method that updates the quantity of a product given
-     * its product ID
-     *
-     * @param id       product ID
-     * @param fileName Location of file
-     * @throws Exception
+     * Query to delete selected product
+     * 
+     * @param c  Database connection to be used
+     * @param id Id to delete
      */
-    public void update(String id, String fileName) throws Exception {
-        Scanner sc = new Scanner(new FileInputStream(fileName));
-        String returnLine = null;
-        int dataLocation = 0;
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            String data[] = line.split(",");
-            String current = data[0];
-            if (current.equals(id)) {
-                String quantity = data[1];
-                String wholesale = data[2];
-                String salePrice = data[3];
-                String supId = data[4];
+    public void delete(Connection c, String id) {
+        try {
+            Statement stmt = null;
 
-                Scanner myObj = new Scanner(System.in);
-                System.out.println("Enter New Amount");
+            c.setAutoCommit(false);
+            stmt = c.createStatement();
 
-                String newData = myObj.nextLine();
-                quantity = newData;
-                returnLine = current + "," + quantity + "," + wholesale + "," + salePrice + "," + supId;
-                break;
-            }
-            dataLocation += 1;
+            String out = "DELETE FROM Products WHERE product_id ='" + id + "';";
+            stmt.executeUpdate(out);
+            stmt.close();
+            c.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
-        sc.close();
-        delete(id, fileName);
-        FileWriter csvFile = new FileWriter(fileName, true);
-        csvFile.append(returnLine);
-
-        csvFile.close();
-        System.out.println("Product ID: " + id + " Is Updated");
 
     }
 
     /**
-     * A method that takes in the filename and product ID and deletes
-     * the data at the ID's location
-     *
-     * @param id       of the the product
-     * @param fileName location of the file
-     * @throws Exception
+     * Method to connect to remote database server
+     * 
+     * @return returns the connection if established
      */
-    public void delete(String id, String fileName) throws Exception {
-        Scanner sc = new Scanner(new FileInputStream(fileName));
-        int dataLocation = 0;
-        while (sc.hasNextLine()) {
-            String line = sc.nextLine();
-            String data[] = line.split(",");
-            String current = data[0];
+    public Connection connect() {
+        Connection conn = null;
 
-            if (current.equals(id)) {
-
-                Scanner myObj = new Scanner(System.in);
-                System.out.println("Press Enter to Comfirm");
-
-                String newData = myObj.nextLine();
-                System.out.println("Product ID: " + id + " Was Deleted");
-
-                break;
-            }
-            dataLocation += 1;
+        try {
+            Class.forName("org.postgresql.Driver");
+            conn = DriverManager.getConnection("jdbc:postgresql://52.91.137.51:5432/products", "postgres", "cS3250!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
-        sc.close();
-        int toEdit = dataLocation;
-        File tmp = File.createTempFile("tmp", "");
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        BufferedWriter bw = new BufferedWriter(new FileWriter(tmp));
 
-        for (int i = 0; i < toEdit; i++)
-            bw.write(String.format("%s%n", br.readLine()));
+        if (conn != null) {
+            System.out.println("Successfully Connected to database");
+        } else {
+            System.out.println("Connection Failed");
+        }
 
-        br.readLine();
-
-        String l;
-        while (null != (l = br.readLine()))
-            bw.write(String.format("%s%n", l));
-        br.close();
-        bw.close();
-
-        File oldFile = new File(fileName);
-        if (oldFile.delete())
-            tmp.renameTo(oldFile);
-
+        return conn;
     }
 
 }
