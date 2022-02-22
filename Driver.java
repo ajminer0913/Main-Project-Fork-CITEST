@@ -1,4 +1,6 @@
 import java.util.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 
 /**
  * Driver class for the program
@@ -15,68 +17,76 @@ public class Driver {
         Scanner sc = new Scanner(System.in);
         String fileName;
         String id;
+        Connection conn = null;
+        conn = crud.connect();
 
-        int optionNum = 0;
+        String optionNum = "";
 
-        System.out.print("Enter file name: ");
-        fileName = sc.nextLine();
         /**
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (optionNum != 5) {
+        while (!optionNum.equals("5")) {
             menu();
             System.out.print("Enter option #: ");
-            optionNum = sc.nextInt();
+            optionNum = sc.next();
 
             switch (optionNum) {
-                case 1:
+                case "1":
                     try {
-                        crud.create(fileName);
+                        crud.create(conn);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
 
-                case 2:
+                case "2":
+                    System.out.println("Input Product ID: ");
+                    id = sc.next();
                     try {
-                        crud.read(fileName);
+                        crud.read(conn, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     break;
 
-                case 3:
+                case "3":
+                    System.out.print("Enter id to update: ");
+                    id = sc.next();
+                    try {
+                        crud.update(conn, id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case "4":
                     System.out.print("Enter id: ");
                     id = sc.next();
                     try {
-                        crud.update(id, fileName);
+                        crud.delete(conn, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
 
-                case 4:
-                    System.out.print("Enter id: ");
-                    id = sc.next();
-                    try {
-                        crud.delete(id, fileName);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    break;
-
-                case 5:
+                case "5":
                     System.out.println("Goodbye");
                     break;
 
                 default:
-                    System.out.print("Invalid option");
+                    System.out.println("Invalid option");
                     break;
 
             }
 
+        }
+        try {
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 
