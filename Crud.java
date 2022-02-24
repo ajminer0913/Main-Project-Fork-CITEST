@@ -87,7 +87,7 @@ public class Crud {
             String out = "INSERT INTO Products (product_id,quantity,wholesale_cost, sale_price, supplier_id)"
                     + "VALUES('" + id + "',"
                     + quantityNum + ","
-                    + wholesale + "," + salesPrice1 + ",'" + supplierId + "' );";
+                    + wholesale + "," + salesPrice + ",'" + supplierId + "' );";
             stmt.executeUpdate(out);
 
             stmt.close();
