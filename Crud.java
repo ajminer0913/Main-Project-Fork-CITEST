@@ -6,7 +6,6 @@
  */
 
 import java.sql.*;
-import java.io.*;
 import java.util.Scanner;
 
 public class Crud {
@@ -80,10 +79,8 @@ public class Crud {
 
         try {
             Statement stmt = null;
-
             c.setAutoCommit(false);
             stmt = c.createStatement();
-
             String out = "INSERT INTO Products (product_id,quantity,wholesale_cost, sale_price, supplier_id)"
                     + "VALUES('" + id + "',"
                     + quantityNum + ","
