@@ -6,7 +6,6 @@
  */
 
 import java.sql.*;
-import java.io.*;
 import java.util.Scanner;
 
 public class Crud {
@@ -38,28 +37,54 @@ public class Crud {
      */
     public void create(Connection c) {
 
+        int quantityNum;
+        double wholesale;
+        double salesPrice;
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Input Product ID: ");
         String id = sc.next();
         System.out.println("Input Quantity: ");
-        String quantity = sc.next();
+        while (true) {
+            try {
+                quantityNum = sc.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input Wholesale Price: ");
-        String wholesale = sc.next();
+        while (true) {
+            try {
+                wholesale = sc.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input Sales Price: ");
-        String salesPrice = sc.next();
+        while (true) {
+            try {
+                salesPrice = sc.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input Supplier ID: ");
         String supplierId = sc.next();
 
         try {
             Statement stmt = null;
-
             c.setAutoCommit(false);
             stmt = c.createStatement();
-
             String out = "INSERT INTO Products (product_id,quantity,wholesale_cost, sale_price, supplier_id)"
                     + "VALUES('" + id + "',"
-                    + Integer.parseInt(quantity) + ","
-                    + Float.parseFloat(wholesale) + "," + Float.parseFloat(salesPrice) + ",'" + supplierId + "' );";
+                    + quantityNum + ","
+                    + wholesale + "," + salesPrice + ",'" + supplierId + "' );";
             stmt.executeUpdate(out);
 
             stmt.close();
@@ -120,13 +145,41 @@ public class Crud {
      */
     public void update(Connection c, String id) {
 
+        int quantityNum;
+        double wholesale;
+        double salesPrice;
+
         Scanner sc = new Scanner(System.in);
         System.out.println("Input new quantity: ");
-        String quantity = sc.next();
+        while (true) {
+            try {
+                quantityNum = sc.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input new wholesale price: ");
-        String wholesale = sc.next();
+        while (true) {
+            try {
+                wholesale = sc.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input new sales price: ");
-        String salesPrice = sc.next();
+        while (true) {
+            try {
+                salesPrice = sc.nextDouble();
+                break;
+            } catch (Exception e) {
+                System.out.print("Invalid input. Please reenter: ");
+                sc.nextLine();
+            }
+        }
         System.out.println("Input new supplier ID: ");
         String supplierId = sc.next();
 
@@ -136,7 +189,7 @@ public class Crud {
             c.setAutoCommit(false);
             stmt = c.createStatement();
 
-            String out = "UPDATE products SET quantity =" + quantity + ", wholesale_cost = " + wholesale
+            String out = "UPDATE products SET quantity =" + quantityNum + ", wholesale_cost = " + wholesale
                     + ", sale_price = " + salesPrice + ", supplier_id = '" + supplierId + "' WHERE product_id = '" + id
                     + "';";
 
