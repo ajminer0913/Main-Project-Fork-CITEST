@@ -15,7 +15,6 @@ public class Driver {
         Crud crud = Crud.getInstance();
 
         Scanner sc = new Scanner(System.in);
-        String fileName;
         String id;
         Connection conn = null;
         conn = crud.connect();
