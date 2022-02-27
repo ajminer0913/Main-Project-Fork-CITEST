@@ -118,7 +118,7 @@ public class CustOrder {
             c.commit();
 
             // updateProduct method 
-            //updateProducts(c, Integer.parseInt(amount), productId);
+            updateProducts(c, Integer.parseInt(amount), productId);
 
         } catch (Exception e) {
             e.printStackTrace();
