@@ -13,11 +13,15 @@ public class Driver {
 
         // Creates new instance on start up
         Crud crud = Crud.getInstance();
+        CustOrder order = CustOrder.getInstance();
 
         Scanner sc = new Scanner(System.in);
         String id;
-        Connection conn = null;
-        conn = crud.connect();
+        int quant;
+        Connection connInventory = null;
+        Connection connCustomer = null;
+        connInventory = crud.connect();
+        connCustomer = order.connect();
 
         String optionNum = "";
 
@@ -25,7 +29,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (!optionNum.equals("5")) {
+        while (!optionNum.equals("7")) {
             menu();
             System.out.print("Enter option #: ");
             optionNum = sc.next();
@@ -33,7 +37,7 @@ public class Driver {
             switch (optionNum) {
                 case "1":
                     try {
-                        crud.create(conn);
+                        crud.create(connInventory);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -43,7 +47,7 @@ public class Driver {
                     System.out.println("Input Product ID: ");
                     id = sc.next();
                     try {
-                        crud.read(conn, id);
+                        crud.read(connInventory, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -54,7 +58,7 @@ public class Driver {
                     System.out.print("Enter id to update: ");
                     id = sc.next();
                     try {
-                        crud.update(conn, id);
+                        crud.update(connInventory, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -64,13 +68,34 @@ public class Driver {
                     System.out.print("Enter id: ");
                     id = sc.next();
                     try {
-                        crud.delete(conn, id);
+                        crud.delete(connInventory, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     break;
 
-                case "5":
+                case "5" :
+                    try{
+                        order.createOrder(connCustomer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+               
+                case "6" :
+                    System.out.print("Enter id to update: ");
+                    id = sc.next();
+                    System.out.print("Enter new purchase quantity: ");
+                    quant = sc.nextInt();
+                    try {
+                        order.updateProducts(connCustomer, quant ,id);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                    
+                case "7":
                     System.out.println("Goodbye");
                     break;
 
@@ -82,7 +107,8 @@ public class Driver {
 
         }
         try {
-            conn.close();
+            connInventory.close();
+            connCustomer.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -93,10 +119,12 @@ public class Driver {
      * Method to print out menu options for user
      */
     private static void menu() {
-        System.out.println("1) Create");
-        System.out.println("2) Read");
-        System.out.println("3) Update");
-        System.out.println("4) Delete");
-        System.out.println("5) Quit");
+        System.out.println("1) Create Inventory Item");
+        System.out.println("2) Read Inventory Item");
+        System.out.println("3) Update Inventory Item");
+        System.out.println("4) Delete Inventory Item");
+        System.out.println("5) Create Customer Order");
+        System.out.println("6) Update Customer Order");
+        System.out.println("7) Quit");
     }
 }
