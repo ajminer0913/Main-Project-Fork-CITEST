@@ -103,15 +103,8 @@ public class CustOrder {
             c.setAutoCommit(false);
             stmt = c.createStatement();
 
-            String out = "INSERT INTO cust_orders (date, cust_email, cust_location, product_id, product_quantity, time)"
-                    + "VALUES('" 
-                        + date + "',"
-                        + email + "," 
-                        + Integer.parseInt(location) + "," 
-                        + productId + "," 
-                        + Integer.parseInt(amount) + "," 
-                        + time 
-                    + "' );";
+            String out = "INSERT INTO cust_orders (date, cust_email, cust_location, product_id, product_quantity)"
+                    + "VALUES('" + date + "','" + email +"'," + Integer.parseInt(location) + ",'" + productId +"'," + Integer.parseInt(amount) + ");";
 
             stmt.executeUpdate(out);
             stmt.close();
