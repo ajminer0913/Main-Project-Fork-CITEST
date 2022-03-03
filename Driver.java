@@ -14,6 +14,8 @@ public class Driver {
         // Creates new instance on start up
         Crud crud = Crud.getInstance();
         CustOrder order = CustOrder.getInstance();
+        
+        Read reader = new Read();
 
         Scanner sc = new Scanner(System.in);
         String id;
@@ -47,7 +49,7 @@ public class Driver {
                     System.out.println("Input Product ID: ");
                     id = sc.next();
                     try {
-                        crud.read(connInventory, id);
+                        reader.read(connInventory, id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
