@@ -51,7 +51,7 @@ class CrudTest {
 
 	/**
 	 * Method that tests the read method The method ensures that the read method is
-	 * gathering the correct data
+	 * gathering the correct data and runs automatically
 	 */
 	@Test
 	void testReadMethod() {
