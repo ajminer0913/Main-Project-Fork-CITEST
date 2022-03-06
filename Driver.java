@@ -16,6 +16,7 @@ public class Driver {
         CustOrder order = CustOrder.getInstance();
         
         Read reader = new Read();
+        Delete deleter = new Delete();
 
         Scanner sc = new Scanner(System.in);
         String id;
@@ -70,7 +71,7 @@ public class Driver {
                     System.out.print("Enter id: ");
                     id = sc.next();
                     try {
-                        crud.delete(connInventory, id);
+                        deleter.delete(id);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
