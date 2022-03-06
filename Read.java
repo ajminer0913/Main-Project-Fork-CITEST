@@ -2,7 +2,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class Read {
+/*
+ * Read class that reads data in the data base
+ */
+public class Read extends CrudOperator {
 	/*
 	 * Read Constructor
 	 */
@@ -18,8 +21,13 @@ public class Read {
 	 * This method reads the SQL data base and prints the value give a
 	 * product ID
 	 */
-	public void read(Connection c, String id) {
+	public void read(String id) {
 		try {
+			
+			Connection c = null;
+			//Calls the abstract class for SQL connection
+			c = CrudOperator.connect();
+			
 			Statement stmt = null;
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
