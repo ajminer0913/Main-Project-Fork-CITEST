@@ -31,7 +31,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (!optionNum.equals("6")) {
+        while (!optionNum.equals("7")) {
             menu();
             System.out.print("Enter option #: ");
             optionNum = sc.next();
@@ -84,10 +84,18 @@ public class Driver {
                     }
                     break;
                     
-               
+                case "6" :
+                	System.out.print("Enter id: ");
+                	id = sc.next();
+                	try {
+                		reader.readCustOrder(id);
+                	} catch (Exception e) {
+                		e.printStackTrace();
+                	}
+                	break;
                
                     
-                case "6":
+                case "7":
                     System.out.println("Goodbye");
                     break;
 
@@ -116,6 +124,7 @@ public class Driver {
         System.out.println("3) Update Inventory Item");
         System.out.println("4) Delete Inventory Item");
         System.out.println("5) Create Customer Order");
-        System.out.println("6) Quit");
+        System.out.println("6) Read Customer Order");
+        System.out.println("7) Quit");
     }
 }
