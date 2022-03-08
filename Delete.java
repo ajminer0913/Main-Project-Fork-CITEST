@@ -18,7 +18,7 @@ public class Delete extends CrudOperator{
     public void delete(String id) {
         try {
 
-            Conection c = null;
+            Connection c = null;
             //Calls the abstract class for SQL connection
             c = CrudOperator.connect();
 
