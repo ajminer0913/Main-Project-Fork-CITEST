@@ -85,7 +85,7 @@ public class Driver {
                     break;
                     
                 case "6" :
-                	System.out.print("Enter id: ");
+                	System.out.print("Enter Email: ");
                 	id = sc.next();
                 	try {
                 		reader.readCustOrder(id);

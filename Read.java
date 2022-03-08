@@ -57,7 +57,7 @@ public class Read extends CrudOperator {
 		}
 	}
 	
-	public void readCustOrder(String custID) {
+	public void readCustOrder(String custEmail) {
 try {
 			
 			Connection c = null;
@@ -68,7 +68,7 @@ try {
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
 			
-			ResultSet rs = stmt.executeQuery("Select * FROM cust_orders WHERE product_id = '" + custID + "';");
+			ResultSet rs = stmt.executeQuery("Select * FROM cust_orders WHERE cust_email = '" + custEmail + "';");
 			
 			while(rs.next()) {
 				String emailRet = rs.getString("cust_email");
