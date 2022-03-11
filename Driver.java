@@ -17,14 +17,21 @@ public class Driver {
         //creates Read object
         Read reader = new Read();
         Delete deleter = new Delete();
+        //creates Update object
+        Update updater = new Update();
+        
 
         Scanner sc = new Scanner(System.in);
         String id;
         int quant;
+        float wholesale;
+        float salesPrice;
+        String supplierID;
+        String date;
+        String custEmail;
+        int custLocation;
         Connection connInventory = null;
-        Connection connCustomer = null;
         connInventory = crud.connect();
-        connCustomer = order.connect();
 
         String optionNum = "";
 
@@ -32,7 +39,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (!optionNum.equals("7")) {
+        while (!optionNum.equals("8")) {
             menu();
             System.out.print("Enter option #: ");
             optionNum = sc.next();
@@ -58,10 +65,58 @@ public class Driver {
                     break;
 
                 case "3":
-                    System.out.print("Enter id to update: ");
-                    id = sc.next();
-                    try {
-                        crud.update(connInventory, id);
+                	System.out.println("Input product ID to change: ");
+        	        while (true) {
+        	            try {
+        	                id = sc.next();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+                	System.out.println("Input new quantity: ");
+        	        while (true) {
+        	            try {
+        	                quant = sc.nextInt();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new wholesale price: ");
+        	        while (true) {
+        	            try {
+        	                wholesale = sc.nextFloat();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new sales price: ");
+        	        while (true) {
+        	            try {
+        	                salesPrice = sc.nextFloat();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new supplier ID: ");
+        	        while (true) {
+        	            try {
+        	                supplierID = sc.next();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        try {
+                        updater.updateInventoryItem(id, quant, wholesale, salesPrice, supplierID);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -79,7 +134,7 @@ public class Driver {
 
                 case "5" :
                     try{
-                        order.createOrder(connCustomer);
+                        order.createOrder(connInventory);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -95,8 +150,65 @@ public class Driver {
                 	}
                 	break;
                
+                case "7" :
+                	System.out.println("Input product ID to change: ");
+        	        while (true) {
+        	            try {
+        	                id = sc.next();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+                	System.out.println("Input new date: ");
+        	        while (true) {
+        	            try {
+        	                date = sc.next();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new customer email: ");
+        	        while (true) {
+        	            try {
+        	                custEmail = sc.next();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new customer location: ");
+        	        while (true) {
+        	            try {
+        	                custLocation = sc.nextInt();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        System.out.println("Input new quantity: ");
+        	        while (true) {
+        	            try {
+        	                quant = sc.nextInt();
+        	                break;
+        	            } catch (Exception e) {
+        	                System.out.print("Invalid input. Please reenter: ");
+        	                sc.nextLine();
+        	            }
+        	        }
+        	        try {
+                        updater.updateCustomerOrderItem(id, date, custEmail, custLocation, quant);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
                     
-                case "7":
+                case "8":
                     System.out.println("Goodbye");
                     break;
 
@@ -109,7 +221,6 @@ public class Driver {
         }
         try {
             connInventory.close();
-            connCustomer.close();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -126,6 +237,7 @@ public class Driver {
         System.out.println("4) Delete Inventory Item");
         System.out.println("5) Create Customer Order");
         System.out.println("6) Read Customer Order");
-        System.out.println("7) Quit");
+        System.out.println("7) Update Customer Order"); 
+        System.out.println("8) Quit");
     }
 }
