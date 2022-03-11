@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 
 public class Driver {
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
         // Creates new instance on start up
         Crud crud = Crud.getInstance();
@@ -39,7 +39,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (!optionNum.equals("8")) {
+        while (!optionNum.equals("9")) {
             menu();
             System.out.print("Enter option #: ");
             optionNum = sc.next();
@@ -64,7 +64,7 @@ public class Driver {
 
                     break;
 
-                    //asks user for updated variables and passes those variables to update method
+                  //asks user for updated variables and passes those variables to update method
                     //checks for correct input and asks user to reenter if incorrect
                 case "3":
                 	System.out.println("Input product ID to change: ");
@@ -151,7 +151,7 @@ public class Driver {
                 		e.printStackTrace();
                 	}
                 	break;
-               
+                	
                 	//asks user for updated variables and passes those variables to update method
                     //checks for correct input and asks user to reenter if incorrect
                 case "7" :
@@ -211,8 +211,21 @@ public class Driver {
                         e.printStackTrace();
                     }
                     break;
-                    
-                case "8":
+                	
+                case "8" :
+                	System.out.print("Enter Id: ");
+                	id = sc.next();
+                	System.out.print("Enter Email: ");
+                	custEmail = sc.next();
+                	try {
+                		deleter.deleteOrder(id, custEmail);
+
+                	} catch (Exception e) {
+                		e.printStackTrace();
+                	}
+                	break;
+                                  
+                case "9":
                     System.out.println("Goodbye");
                     break;
 
@@ -225,6 +238,7 @@ public class Driver {
         }
         try {
             connInventory.close();
+            
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -241,7 +255,8 @@ public class Driver {
         System.out.println("4) Delete Inventory Item");
         System.out.println("5) Create Customer Order");
         System.out.println("6) Read Customer Order");
-        System.out.println("7) Update Customer Order"); 
-        System.out.println("8) Quit");
+        System.out.println("7) Update Customer Order");
+        System.out.println("8) Delete Customer Order");
+        System.out.println("9) Quit");
     }
 }
