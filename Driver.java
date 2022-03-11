@@ -20,6 +20,7 @@ public class Driver {
 
         Scanner sc = new Scanner(System.in);
         String id;
+        String email;
         int quant;
         Connection connInventory = null;
         Connection connCustomer = null;
@@ -32,7 +33,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
-        while (!optionNum.equals("7")) {
+        while (!optionNum.equals("8")) {
             menu();
             System.out.print("Enter option #: ");
             optionNum = sc.next();
@@ -94,9 +95,22 @@ public class Driver {
                 		e.printStackTrace();
                 	}
                 	break;
-               
-                    
-                case "7":
+                	
+                	
+                case "7" :
+                	System.out.print("Enter Id: ");
+                	id = sc.next();
+                	System.out.print("Enter Email: ");
+                	email = sc.next();
+                	try {
+                		deleter.deleteOrder(id, email);
+
+                	} catch (Exception e) {
+                		e.printStackTrace();
+                	}
+                	break;
+                                  
+                case "8":
                     System.out.println("Goodbye");
                     break;
 
@@ -126,6 +140,7 @@ public class Driver {
         System.out.println("4) Delete Inventory Item");
         System.out.println("5) Create Customer Order");
         System.out.println("6) Read Customer Order");
-        System.out.println("7) Quit");
+        System.out.println("7) Delete Customer Order");
+        System.out.println("8) Quit");
     }
 }
