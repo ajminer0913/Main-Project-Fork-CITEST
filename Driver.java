@@ -23,6 +23,7 @@ public class Driver {
         //Initializing variables and objects
         Scanner sc = new Scanner(System.in);
         String id;
+        String email;
         int quant;
         float wholesale;
         float salesPrice;
@@ -39,6 +40,7 @@ public class Driver {
          * input loop for user to navigate through
          * menu and options and call each specific function
          */
+
         while (!optionNum.equals("9")) {
             menu();
             System.out.print("Enter option #: ");
@@ -152,6 +154,7 @@ public class Driver {
                 	}
                 	break;
                 	
+
                 	//asks user for updated variables and passes those variables to update method
                     //checks for correct input and asks user to reenter if incorrect
                 case "7" :
@@ -220,6 +223,7 @@ public class Driver {
                 	try {
                 		deleter.deleteOrder(id, custEmail);
 
+
                 	} catch (Exception e) {
                 		e.printStackTrace();
                 	}
@@ -232,7 +236,6 @@ public class Driver {
                 default:
                     System.out.println("Invalid option");
                     break;
-
             }
 
         }
@@ -258,5 +261,7 @@ public class Driver {
         System.out.println("7) Update Customer Order");
         System.out.println("8) Delete Customer Order");
         System.out.println("9) Quit");
+
+
     }
 }
