@@ -14,13 +14,13 @@ public class Driver {
         // Creates new instance on start up
         Crud crud = Crud.getInstance();
         CustOrder order = CustOrder.getInstance();
-        //creates Read object
+        
+        //creates CRUD objects
         Read reader = new Read();
         Delete deleter = new Delete();
-        //creates Update object
         Update updater = new Update();
         
-
+        //Initializing variables and objects
         Scanner sc = new Scanner(System.in);
         String id;
         int quant;
@@ -64,6 +64,8 @@ public class Driver {
 
                     break;
 
+                    //asks user for updated variables and passes those variables to update method
+                    //checks for correct input and asks user to reenter if incorrect
                 case "3":
                 	System.out.println("Input product ID to change: ");
         	        while (true) {
@@ -150,6 +152,8 @@ public class Driver {
                 	}
                 	break;
                
+                	//asks user for updated variables and passes those variables to update method
+                    //checks for correct input and asks user to reenter if incorrect
                 case "7" :
                 	System.out.println("Input product ID to change: ");
         	        while (true) {
