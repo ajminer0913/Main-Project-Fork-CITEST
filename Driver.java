@@ -43,8 +43,9 @@ public class Driver implements EventListener{
         int custLocation;
 
         Connection connInventory = null;
+        Connection connCustomer = null;
         connInventory = crud.connect();
-        connCustomer = order.connect();
+        //connCustomer = order.connect();
         String optionNum = "";
 
         /**

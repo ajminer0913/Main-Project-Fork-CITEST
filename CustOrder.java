@@ -3,7 +3,7 @@ import java.io.*;
 import java.util.Scanner;
 
 
-public class CustOrder {
+public class CustOrder extends CrudOperator {
     private static CustOrder firstInstance = null;
 
     // Constructor for CustOrder
