@@ -26,6 +26,7 @@ public class Driver implements EventListener{
         CustOrder order = CustOrder.getInstance();
         
         //creates CRUD objects
+        Create creator = new Create();
         Read reader = new Read();
         Delete deleter = new Delete();
         Update updater = new Update();
@@ -150,7 +151,7 @@ public class Driver implements EventListener{
 
                 case "5" :
                     try{
-                        order.createOrder(connInventory);
+                        creator.createCustOrder();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

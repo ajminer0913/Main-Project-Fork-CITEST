@@ -125,7 +125,7 @@ public class Update {
             }
             rs.close();
             stmt.close();
-            c.close();
+            //c.close();
 
             //subtracting current product quantity by order quantity
             int newAmount = previousAmount - amountBought;
@@ -138,6 +138,7 @@ public class Update {
             stmt.executeUpdate(out);
             stmt.close();
             c.commit();
+            c.close();
 
         } catch (Exception e) {
             e.printStackTrace();
