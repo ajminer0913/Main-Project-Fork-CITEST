@@ -1,8 +1,7 @@
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.ResultSet;
+import java.util.Scanner;
 
 public class Create extends CrudOperator {
 	/*
@@ -81,14 +80,14 @@ public class Create extends CrudOperator {
 
 	        System.out.println("Records successfully created");
 	    }
-	}
+	
 /*
 * Creates Customer order through inputs
 */
 	
 	public void createCustOrder(/*String date, String custEmail, int custLocation, String productId, int productQuantity*/) {
 		 
-		    
+		    Update updater = new Update();
 			Connection c = null;
 			c = CrudOperator.connect();
 		        // User Input for Date, Email, Location, ProdId, Amount purchased, and Date
@@ -112,7 +111,7 @@ public class Create extends CrudOperator {
 		        String time = sc.next();
 		        sc.close();
 
-		        // Sql querry that will atempt to add the user input into the Customer Orders table
+		        // SQL query that will attempt to add the user input into the Customer Orders table
 		        try {
 		            Statement stmt = null;
 
@@ -127,7 +126,7 @@ public class Create extends CrudOperator {
 		            c.commit();
 
 		            // updateProduct method 
-		            updateProducts(Integer.parseInt(amount), productId);
+		            updater.updateProductsNewCustOrder(Integer.parseInt(amount), productId);
 
 		        } catch (Exception e) {
 		            e.printStackTrace();
@@ -139,45 +138,4 @@ public class Create extends CrudOperator {
 
 		    }
 	
-/*
- * Update products method 
- */
-	
-	public void updateProducts(int amountBought, String productId) {
-
-        try {
-        	
-            Connection c = null;
-            c = CrudOperator.connect();
-
-            //sql querry to try to get the current product quantity and setting it to previousAmount
-            Statement stmt = null;
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery( "SELECT quantity FROM Products where product_id = "+productId+";" );
-            int previousAmount = rs.getInt("quantity");
-            rs.close();
-            stmt.close();
-            c.close();
-
-            //subtracting current product quantity by order quantity
-            int newAmount = previousAmount - amountBought;
-
-            //sql querry to attempt to update the product quantity in the products table 
-            stmt = c.createStatement();
-            c.setAutoCommit(false);
-
-            String out = ("UPDATE Products set quantity ="+newAmount+" where product_id = "+productId+";");
-            stmt.executeUpdate(out);
-            stmt.close();
-            c.commit();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-
-    }
-		
 }
-
-
