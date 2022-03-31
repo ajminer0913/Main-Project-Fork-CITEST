@@ -1,12 +1,22 @@
+package main;
 import java.util.*;
+
+import crudOperations.Delete;
+import crudOperations.Read;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import crudOperations.*;
 
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
+import oldCode.Crud;
+import oldCode.CustOrder;
 
 import javax.annotation.Nonnull;
+
+import botCode.Bot;
 
 /**
  * Driver class for the program
