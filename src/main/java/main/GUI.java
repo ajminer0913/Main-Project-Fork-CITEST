@@ -14,8 +14,6 @@ import java.awt.Insets;
 import java.awt.Color;
 import crudOperations.*;
 
-import crudOperations.*;
-
 
 public class GUI {
 
