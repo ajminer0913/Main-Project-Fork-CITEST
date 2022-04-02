@@ -1,16 +1,9 @@
 package main;
 
-
-
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
-
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
@@ -19,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Color;
+import crudOperations.*;
 
 import crudOperations.*;
 
