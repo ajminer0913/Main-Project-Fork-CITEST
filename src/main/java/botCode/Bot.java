@@ -1,5 +1,6 @@
 package botCode;
 
+
 import com.sun.tools.javac.Main;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -13,7 +14,6 @@ import javax.security.auth.login.LoginException;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import main.Driver;
 
 public class Bot {
 
@@ -34,11 +34,12 @@ public class Bot {
         return jda;
     }
     JDA createUser(){
-        final String TOKEN = "OTUxNjcxODQ1NjEzMTA5MzA4.Yiq3eQ.x4HyYEhje6o1i18DGc0i0uPkBHE";
+        //placeholder because otherwise discord deletes the token if seen on the internet
+        final String TOKEN = "placeholder";
         JDABuilder jda = JDABuilder.createDefault(TOKEN);
         //Event Listeners defined for the bot
         jda.addEventListeners(
-                new Driver(),
+                new main.Driver(),
                 new BotCommands());
         //Sets the bot activity
         jda.setActivity(Activity.watching("Orders"));

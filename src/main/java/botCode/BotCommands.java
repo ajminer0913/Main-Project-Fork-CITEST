@@ -1,10 +1,10 @@
 package botCode;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import oldCode.CustOrder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,9 @@ import java.util.Date;
 
 public class BotCommands extends ListenerAdapter {
 
-    CustOrder cust = CustOrder.getInstance();
-    Connection conn = cust.connect();
+    Botoperations cust = Botoperations.getInstance();
     public String prefix = "!";
+    private boolean ordersuccess;
 
     /**
      * Logic for when the bot sees a message in the chat
@@ -25,49 +25,136 @@ public class BotCommands extends ListenerAdapter {
         if (event.getAuthor().isBot()) return;
         String[] args = event.getMessage().getContentRaw().split(" ");
         String user = event.getAuthor().getAsMention();
-        String email;
-        int location;
-        String product_id;
+
+        if(args[0].equalsIgnoreCase(prefix + "commands")){
+            menu(event,user);
+        }
+        if(args[0].equalsIgnoreCase(prefix + "createorder")){
+            createOrder(event,args);
+        }
+        if(args[0].equalsIgnoreCase(prefix + "orders")){
+            pastOrders(event,args);
+        }
+        if(args[0].equalsIgnoreCase(prefix + "browse")){
+            browse(event);
+        }
+    }
+
+    private void menu(MessageReceivedEvent event, String  user){
+        event.getChannel().sendMessage("Hello " + user).queue();
+        event.getChannel().sendMessage("1.) If you would like to place an order, please " +
+                "enter the following in order separated by spaces:").queue();
+        event.getChannel().sendMessage("!createorder email location(int) product id quantity(int)").queue();
+        event.getChannel().sendMessage("2.) If you would like to look at past orders, enter !orders").queue();
+        event.getChannel().sendMessage("3.) If you would like a sample of our items, enter !browse").queue();
+    }
+
+    private void createOrder(MessageReceivedEvent event, String[] args){
+        Connection conn = cust.connect();
+        ordersuccess = true;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         String currDate = dateFormat.format(date);
-        int quantity;
+        String email = args[1];
+        int location = Integer.parseInt(args[2]);;
+        String product_id = args[3];
+        int quantity = Integer.parseInt(args[4]);
+        String custId = event.getAuthor().getId();
 
-        if(args[0].equalsIgnoreCase(prefix + "order")){
-            event.getChannel().sendMessage("Hello " + user).queue();
-            event.getChannel().sendMessage("If you would like to place an order, please " +
-                    "enter the following in order separated by spaces:").queue();
-            event.getChannel().sendMessage("!createorder email location(int) product id quantity(int)").queue();
+        event.getChannel().sendMessage("Date: " + currDate).queue();
+        event.getChannel().sendMessage("Email: " + email).queue();
+        event.getChannel().sendMessage("Location:" + location).queue();
+        event.getChannel().sendMessage("Product ID: " + product_id).queue();
+        event.getChannel().sendMessage("Quantity: " + quantity).queue();
+        //manually doing the SQL query since I can't really wait for the updated Create
+        try {
+            Statement stmt = null;
+
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+
+            String out = "INSERT INTO discord_orders(date, cust_email, cust_location, product_id, product_quantity,cust_id,order_status)"
+                    + "VALUES('" + currDate + "','" + email +"'," + location + ",'" + product_id +"'," + quantity + ",'" + custId + "','Processing');";
+
+            stmt.executeUpdate(out);
+            stmt.close();
+            conn.commit();
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            event.getChannel().sendMessage("Error in creating order").queue();
+            ordersuccess = false;
         }
-        if(args[0].equalsIgnoreCase(prefix + "createorder")){
-            email = args[1];
-            location = Integer.parseInt(args[2]);
-            product_id = args[3];
-            quantity = Integer.parseInt(args[4]);
-            event.getChannel().sendMessage("Date: " + currDate).queue();
-            event.getChannel().sendMessage("Email: " + email).queue();
-            event.getChannel().sendMessage("Location:" + location).queue();
-            event.getChannel().sendMessage("Product ID: " + product_id).queue();
-            event.getChannel().sendMessage("Quantity: " + quantity).queue();
-            //manually doing the SQL query since I can't really wait for the updated Create
-            try {
-                Statement stmt = null;
-
-                conn.setAutoCommit(false);
-                stmt = conn.createStatement();
-
-                String out = "INSERT INTO cust_orders (date, cust_email, cust_location, product_id, product_quantity)"
-                        + "VALUES('" + currDate + "','" + email +"'," + location + ",'" + product_id +"'," + quantity + ");";
-
-                stmt.executeUpdate(out);
-                stmt.close();
-                conn.commit();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                event.getChannel().sendMessage("Error in creating orer").queue();
-            }
+        if(ordersuccess){
             event.getChannel().sendMessage("Order Successfully Created").queue();
+        }
+    }
+    private void pastOrders(MessageReceivedEvent event, String[] args){
+        Connection conn = cust.connect();
+        String custId = event.getAuthor().getId();
+        try {
+            Statement stmt = null;
+
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT date, product_id, product_quantity,order_status,order_id FROM discord_orders WHERE cust_id = '" + custId + "';");
+            if (rs != null){
+                event.getChannel().sendMessage("Previous Order").queue();
+                event.getChannel().sendMessage("Date" + "\t\t\t      Product ID" + "\tQuantity" +"\tOrder ID" + "\tOrder Status ").queue();
+                event.getChannel().sendMessage("------------------------------------------------------------").queue();
+                while (rs.next()){
+                    String date = rs.getString("date");
+                    String prodId = rs.getString("product_id");
+                    int qt = rs.getInt("product_quantity");
+                    String orderStat = rs.getString("order_status");
+                    String orderId = rs.getString("order_id");
+                    event.getChannel().sendMessage(date + "\t" + prodId + "\t" + qt + "\t\t" + orderId + "\t\t" + orderStat).queue();
+                }
+            }else{
+                event.getChannel().sendMessage("No previous orders found").queue();
+            }
+            rs.close();
+            stmt.close();
+            conn.commit();
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void browse(MessageReceivedEvent event){
+        Connection conn = cust.connect();
+        try {
+            Statement stmt = null;
+
+            conn.setAutoCommit(false);
+            stmt = conn.createStatement();
+
+            ResultSet rs = stmt.executeQuery("SELECT A.product_id,B.prod_name,B.prod_description,A.quantity,A.sale_price FROM products A NATURAL JOIN product_descriptions B;");
+            if (rs != null){
+                event.getChannel().sendMessage("Product ID" + "\t\tProduct Name" +"\t\tProduct Description" + "\t\tQuantity" + "\t\tSale Price ").queue();
+                event.getChannel().sendMessage("------------------------------------------------------------").queue();
+                while (rs.next()){
+                    String prodId = rs.getString("product_id");
+                    String prodName = rs.getString("prod_name");
+                    String desc = rs.getString("prod_description");
+                    int qt = rs.getInt("quantity");
+                    double saleprice = rs.getDouble("sale_price");
+                    event.getChannel().sendMessage(prodId + "\t" + prodName + "\t\t" + desc + "\t\t" + qt + "\t\t$" + saleprice).queue();
+                }
+            }else{
+                event.getChannel().sendMessage("No previous orders found").queue();
+            }
+            rs.close();
+            stmt.close();
+            conn.commit();
+            conn.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
