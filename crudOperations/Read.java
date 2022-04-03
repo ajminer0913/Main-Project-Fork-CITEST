@@ -2,6 +2,7 @@ package crudOperations;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import crudOperations.DataTransfer;
 
 /*
  * Read class that reads data in the data base
@@ -22,7 +23,9 @@ public class Read extends CrudOperator {
 	 * This method reads the SQL data base and prints the value give a
 	 * product ID
 	 */
-	public void read(String id) {
+	public DataTransfer read(String id) {
+		//creating a new transfer object
+		DataTransfer pogo = new DataTransfer();
 		try {
 			
 			Connection c = null;
@@ -42,13 +45,13 @@ public class Read extends CrudOperator {
                 float saleRet = rs.getFloat("sale_price");
                 String supRet = rs.getString("supplier_id");
                 
-                System.out.println("");
-                System.out.println("ID: " + idRet);
-                System.out.println("QUANTITY: " + quantRet);
-                System.out.println("WHOLESALE COST " + costRet);
-                System.out.println("SALE PRICE: " + saleRet);
-                System.out.println("SUPPLIER ID: " + supRet);
-                System.out.println("");
+                //using transfer object to store data
+                pogo.setInventoryID(idRet);
+                pogo.setInventoryQuantity(quantRet);
+                pogo.setInventoryCost(costRet);
+                pogo.setInventorySale(saleRet);
+                pogo.setInventorySupID(supRet);
+                
 			}
 			rs.close();
 			stmt.close();
@@ -56,6 +59,8 @@ public class Read extends CrudOperator {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		// returns the data transfer object
+		return pogo;
 	}
 	
 	public void readCustOrder(String custEmail) {

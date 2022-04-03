@@ -3,6 +3,8 @@ package main;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -10,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Color;
+import crudOperations.*;
+
 
 public class GUI {
 
@@ -60,7 +64,24 @@ public class GUI {
 	 */
 		JButton btnNewButton = new JButton("Read");
 		btnNewButton.addActionListener(new ActionListener() {
+
+			//Read Button
 			public void actionPerformed(ActionEvent e) {
+				Read reader = new Read();
+				String input = JOptionPane.showInputDialog(null, "Input Product ID");
+				// calling read method and storing it into a variable
+				DataTransfer readResults = reader.read(input);
+				
+				//Storing data into variables
+				String id = readResults.getInventoryID();
+				int quantity = readResults.getInventoryQuantity();
+				float cost = readResults.getInventoryCost();
+				float sale = readResults.getInventorySale();
+				String supID = readResults.getInventorySupID();
+				//outputs 
+				JOptionPane.showMessageDialog(null, "Product ID: " + id + "\n" + "Quantity: " + quantity + "\n" + "Cost: "+ cost + "\n" + "Sale Price: " + sale + "\n"+ "Supplier ID: " + supID);
+
+
 			}
 		});
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
@@ -106,3 +127,4 @@ public class GUI {
 	}
 
 }
+
