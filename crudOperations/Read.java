@@ -1,8 +1,13 @@
 package crudOperations;
+
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import crudOperations.DataTransfer;
+import java.util.ArrayList;
+
+import crudOperations.CrudOperator;
 
 /*
  * Read class that reads data in the data base
@@ -45,13 +50,12 @@ public class Read extends CrudOperator {
                 float saleRet = rs.getFloat("sale_price");
                 String supRet = rs.getString("supplier_id");
                 
-                //using transfer object to store data
+              //using transfer object to store data
                 pogo.setInventoryID(idRet);
                 pogo.setInventoryQuantity(quantRet);
                 pogo.setInventoryCost(costRet);
                 pogo.setInventorySale(saleRet);
                 pogo.setInventorySupID(supRet);
-                
 			}
 			rs.close();
 			stmt.close();
@@ -59,8 +63,56 @@ public class Read extends CrudOperator {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		// returns the data transfer object
 		return pogo;
+	}
+	/**
+	 * Method to get all data from the database into JTable for use in the GUI
+	 * @return array of objects to be used for jTable
+	 */
+	public Object[][] readAll() {
+		Object[][] data = null;
+		try{
+			
+			Connection c = null;
+			c = CrudOperator.connect();
+		
+			Statement stmt = null;
+			c.setAutoCommit(false);
+			stmt = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
+	                ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT product_id, quantity, wholesale_cost, sale_price, supplier_id from products;");
+
+			int rowCount = getRowCount(rs); // Row Count
+			int columnCount = getColumnCount(rs); // Column Count
+
+			data = new Object[rowCount][columnCount];
+
+			// Starting from First Row for Iteration
+			rs.beforeFirst();
+
+			int i = 0;
+			
+			while (rs.next()) {
+
+				int j = 0;
+
+				data[i][j++] = rs.getString("product_id");
+				data[i][j++] = rs.getInt("quantity");
+				data[i][j++] = rs.getFloat("wholesale_cost");
+				data[i][j++] = rs.getFloat("sale_price");
+				data[i][j++] = rs.getString("supplier_id");
+
+				i++;
+			}
+			 
+			rs.close();
+			stmt.close();
+		
+	}catch (Exception e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+		return data;
 	}
 	
 	public void readCustOrder(String custEmail) {
@@ -95,5 +147,42 @@ try {
 			e.printStackTrace();
 			System.exit(1);
 		}
+	}
+	// Method to get row Count from ResultSet Object
+	private int getRowCount(ResultSet rs) {
+
+		try {
+			
+			if(rs != null) {
+				
+				rs.last();
+				
+				return rs.getRow(); 
+			}
+			
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	// Method to get Column Count from ResultSet Object
+	private int getColumnCount(ResultSet rs) {
+
+		try {
+
+			if(rs != null)
+				return rs.getMetaData().getColumnCount();
+
+		} catch (SQLException e) {
+
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return 0;
 	}
 }
