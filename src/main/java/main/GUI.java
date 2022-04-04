@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Color;
-import main.DataTransfer;
+import crudOperations.DataTransfer;
 import javax.swing.JTable;
 import java.awt.Component;
 import javax.swing.JScrollPane;

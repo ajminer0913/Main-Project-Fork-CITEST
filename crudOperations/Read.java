@@ -1,6 +1,5 @@
 package crudOperations;
 
-package main;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import main.crudOperations.CrudOperator;
+import crudOperations.CrudOperator;
 
 /*
  * Read class that reads data in the data base
