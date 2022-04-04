@@ -15,7 +15,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Insets;
 import java.awt.Color;
-import crudOperations.DataTransfer;
+
 import javax.swing.JTable;
 import java.awt.Component;
 import javax.swing.JScrollPane;
@@ -57,9 +57,6 @@ public class GUI {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	
-	/**
-	 * button for read; no functionality 
-	 */
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{88, 0, 0, 55, 63, 65, 61, 0};
 		gridBagLayout.rowHeights = new int[]{21, 0, 0, 0, 0, 0};
@@ -67,9 +64,10 @@ public class GUI {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 	
-	/**
-	 * button for create; no functionality
-	 */
+		
+		/**
+		 * button for read; no functionality 
+		 */
 		JButton btnNewButton = new JButton("Read");
 		btnNewButton.setAlignmentY(Component.TOP_ALIGNMENT);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -99,7 +97,33 @@ public class GUI {
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 0;
 		frame.getContentPane().add(btnNewButton, gbc_btnNewButton);
+		
+		
+		/**
+		 * button for create; no functionality
+		 * 
+		 */
 		JButton btnNewButton_1 = new JButton("Create");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Create creator = new Create();
+				
+				String productID = JOptionPane.showInputDialog(null, "Input Product ID");
+				String quantity = JOptionPane.showInputDialog(null, "Input Quantity");
+				String wholeSale = JOptionPane.showInputDialog(null, "Input Wholesale Price ID");
+				String sale = JOptionPane.showInputDialog(null, "Input Sales Price ID");
+				String supplierID = JOptionPane.showInputDialog(null, "Input Supplier ID");
+				
+				int selectedOption = JOptionPane.showConfirmDialog(null, 
+                        "Do you wanna create a new item in the inventory?", 
+                        "Choose", 
+                        JOptionPane.YES_NO_OPTION); 
+				if (selectedOption == JOptionPane.YES_OPTION) {
+					creator.createInventoryItem(productID, Integer.parseInt(quantity), Float.parseFloat(wholeSale), Float.parseFloat(sale), supplierID);
+				}
+				
+			}
+		});
 		btnNewButton_1.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
 		gbc_btnNewButton_1.anchor = GridBagConstraints.NORTHWEST;
@@ -107,7 +131,32 @@ public class GUI {
 		gbc_btnNewButton_1.gridx = 4;
 		gbc_btnNewButton_1.gridy = 0;
 		frame.getContentPane().add(btnNewButton_1, gbc_btnNewButton_1);
+		
+		
+		/**
+		 * button for update; no functionality
+		 * 
+		 */
 		JButton btnNewButton_2 = new JButton("Update");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Update updater = new Update();
+				
+				String productID = JOptionPane.showInputDialog(null, "Input Product ID");
+				String quantity = JOptionPane.showInputDialog(null, "Input New Quantity");
+				String wholeSale = JOptionPane.showInputDialog(null, "Input New Wholesale Price ID");
+				String sale = JOptionPane.showInputDialog(null, "Input New Sales Price ID");
+				String supplierID = JOptionPane.showInputDialog(null, "Input New Supplier ID");
+				
+				int selectedOption = JOptionPane.showConfirmDialog(null, 
+                        "Do you wanna update this item in the inventory?", 
+                        "Choose", 
+                        JOptionPane.YES_NO_OPTION); 
+				if (selectedOption == JOptionPane.YES_OPTION) {
+					updater.updateInventoryItem(productID, Integer.parseInt(quantity), Float.parseFloat(wholeSale), Float.parseFloat(sale), supplierID);
+				}
+			}
+		});
 		btnNewButton_2.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
 		gbc_btnNewButton_2.anchor = GridBagConstraints.NORTHWEST;
@@ -116,7 +165,27 @@ public class GUI {
 		gbc_btnNewButton_2.gridy = 0;
 		frame.getContentPane().add(btnNewButton_2, gbc_btnNewButton_2);
 		
+		
+		/**
+		 * button for delete; no functionality
+		 * 
+		 */
 		JButton btnNewButton_3 = new JButton("Delete");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Delete deleter = new Delete();
+				
+				String productID = JOptionPane.showInputDialog(null, "Input Product ID");
+				
+				int selectedOption = JOptionPane.showConfirmDialog(null, 
+                        "Do you wanna delete this item in the inventory?", 
+                        "Choose", 
+                        JOptionPane.YES_NO_OPTION); 
+				if (selectedOption == JOptionPane.YES_OPTION) {
+					deleter.delete(productID);
+				}
+			}
+		});
 		btnNewButton_3.setForeground(Color.RED);
 		btnNewButton_3.setBackground(Color.WHITE);
 		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
