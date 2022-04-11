@@ -21,7 +21,7 @@ public class Create extends CrudOperator {
 *
 */
 
-	public void createInventoryItem(/*String productID, String quantity, float wholeSale, float sale, String supplierID*/) {
+	public void createInventoryItem(String productID, int quantity, float wholeSale, float sale, String supplierID) {
 		
 		Connection c = null;
 		c = CrudOperator.connect();
@@ -29,6 +29,8 @@ public class Create extends CrudOperator {
 	        double wholesale;
 	        double salesPrice;
 
+	      //Old user input code
+	        /*
 	        Scanner sc = new Scanner(System.in);
 	        System.out.println("Input Product ID: ");
 	        String id = sc.next();
@@ -62,6 +64,7 @@ public class Create extends CrudOperator {
 	                sc.nextLine();
 	            }
 	        }
+	        */
 	        System.out.println("Input Supplier ID: ");
 	        String supplierId = sc.next();
 
@@ -70,9 +73,9 @@ public class Create extends CrudOperator {
 	            c.setAutoCommit(false);
 	            stmt = c.createStatement();
 	            String out = "INSERT INTO Products (product_id,quantity,wholesale_cost, sale_price, supplier_id)"
-	                    + "VALUES('" + id + "',"
-	                    + quantityNum + ","
-	                    + wholesale + "," + salesPrice + ",'" + supplierId + "' );";
+	                    + "VALUES('" + productID + "',"
+	                    + quantity + ","
+	                    + wholeSale + "," + sale + ",'" + supplierID + "' );";
 	            stmt.executeUpdate(out);
 
 	            stmt.close();
