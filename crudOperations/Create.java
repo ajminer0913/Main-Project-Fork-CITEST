@@ -25,9 +25,7 @@ public class Create extends CrudOperator {
 		
 		Connection c = null;
 		c = CrudOperator.connect();
-	        int quantityNum;
-	        double wholesale;
-	        double salesPrice;
+	        
 
 	      //Old user input code
 	        /*
@@ -64,10 +62,10 @@ public class Create extends CrudOperator {
 	                sc.nextLine();
 	            }
 	        }
-	        */
+	        
 	        System.out.println("Input Supplier ID: ");
 	        String supplierId = sc.next();
-
+			*/
 	        try {
 	            Statement stmt = null;
 	            c.setAutoCommit(false);
