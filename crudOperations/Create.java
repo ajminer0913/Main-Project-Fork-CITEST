@@ -4,6 +4,8 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import main.Read;
+
 
 public class Create extends CrudOperator {
 
@@ -23,8 +25,9 @@ public class Create extends CrudOperator {
 		
 		Connection c = null;
 		c = CrudOperator.connect();
+	        
 
-	        //Old user input code
+	      //Old user input code
 	        /*
 	        Scanner sc = new Scanner(System.in);
 	        System.out.println("Input Product ID: ");
@@ -59,10 +62,10 @@ public class Create extends CrudOperator {
 	                sc.nextLine();
 	            }
 	        }
+	        
 	        System.out.println("Input Supplier ID: ");
 	        String supplierId = sc.next();
-	        */
-
+			*/
 	        try {
 	            Statement stmt = null;
 	            c.setAutoCommit(false);
@@ -140,5 +143,73 @@ public class Create extends CrudOperator {
 		        //System.out.println("Products List Updated");
 
 		    }
+	
+	/**
+	 * Method to create a year to date finance report. Can be used by GUI if we create a window for
+	 * the finance table. Uses readFinanceSummary to output total orders and profit per month and
+	 * for all the data in the table. 
+	 * @return
+	 */
+	public String createFinanceReport () {
+		
+		//initializing variables 
+		Read reader = new Read() ;
+		String startDate = "2022-01-01";
+		String endDate = "2022-01-31";
+		String january;
+		String february;
+		String march;
+		String april;
+		String may;
+		String june;
+		String yearToDate;
+		
+		//finds total orders and profit for every month and for the year
+		january = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-02-01";
+		endDate = "2022-02-28";
+		february = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-03-01";
+		endDate = "2022-03-31";
+		march = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-04-01";
+		endDate = "2022-04-30";
+		april = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-05-01";
+		endDate = "2022-05-31";
+		may = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-06-01";
+		endDate = "2022-06-30";
+		june = reader.readFinanceSummary( startDate, endDate);
+		
+		startDate = "2022-01-01";
+		endDate = "2022-06-30";
+		yearToDate = reader.readFinanceSummary( startDate, endDate);
+		
+		String report = january + february + march + april + may + june + yearToDate;
+		
+		return report;
+	}
+	
+	/**
+	 * Method to find total orders and profit for a user specified length of time.
+	 * Can be called by GUI if we create a window for the finance table.
+	 * @param startDate
+	 * @param endDate
+	 * @return report
+	 */
+	public String createUniqueFinanceReport (String startDate, String endDate) {
+		
+		Read reader = new Read();
+		
+		String report = reader.readFinanceSummary( startDate, endDate);
+		
+		return report;
+	}
 	
 }
