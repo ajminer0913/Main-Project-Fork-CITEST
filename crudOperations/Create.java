@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import main.Read;
+
 
 
 public class Create extends CrudOperator {
