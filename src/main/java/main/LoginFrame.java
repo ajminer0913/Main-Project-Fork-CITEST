@@ -7,10 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import crudOperations.LoginManager;
+//import gui.LoginFrame;
 
 public class LoginFrame extends JFrame {
 
@@ -66,7 +70,25 @@ public class LoginFrame extends JFrame {
 		JButton btnNewButton = new JButton("Login");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				LoginManager manager = new LoginManager();
+				String uInput = usernameInput.getText();
+				String pInput = passwordInput.getText();
 				
+				String storedUsername = manager.getUsername(uInput);
+				String storedPassword = manager.getPassword(pInput);
+				
+				if(uInput.equals(storedUsername) && pInput.equals(storedPassword)) {
+					dispose();
+					MainMenuFrame menu = new MainMenuFrame();
+					menu.setVisible(true);
+				}
+				
+				else {
+					dispose();
+					LoginFrame login = new LoginFrame();
+					login.setVisible(true);
+					JOptionPane.showMessageDialog(null, "Incorrect Username or Password");
+				}
 			}
 		});
 		btnNewButton.setBounds(277, 199, 89, 23);
