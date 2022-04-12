@@ -3,13 +3,24 @@ import crudOperations.CrudOperator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-
+/**
+ * 
+ * LoginManager Class that stores usernames and passwords into a login data table
+ * and retrieves usernames and passwords from login data table
+ *
+ */
 public class LoginManager {
-	
+	/**
+	 * Constructor
+	 */
 	public LoginManager() {
 		
 	}
-	
+	/**
+	 * Takes in username and password and stores them into login data table
+	 * @param username
+	 * @param password
+	 */
 	public void setUsernamePassword(String username, String password) {
 		Connection c = null;
 		c = CrudOperator.connect();
@@ -17,6 +28,8 @@ public class LoginManager {
 			Statement stmt = null;
 			c.setAutoCommit(false);
 			stmt = c.createStatement();
+			
+			//SQL query statement to insert username and password into login data table
 			String out = "INSERT INTO login (usernames, passwords)"
                     + "VALUES('" + username + "'"
                      + ",'" + password + "');";
@@ -32,7 +45,11 @@ public class LoginManager {
 
 		
 	}
-	
+	/**
+	 * Retrieves username from login data table
+	 * @param username wanted
+	 * @return username from data table
+	 */
 	public String getUsername(String username) {
 		String result = "";
 		try {
@@ -44,7 +61,7 @@ public class LoginManager {
 			stmt = c.createStatement();
 			
 			
-			
+			//SQL query statement to retrieve username from login datatable
 			ResultSet rs = stmt.executeQuery("Select * FROM login WHERE usernames = '" + username+ "';");
 			
 			while (rs.next()) {
@@ -58,6 +75,11 @@ public class LoginManager {
 		return result;
 	}
 	
+	/**
+	 * Returns a password from login data table
+	 * @param password wanted
+	 * @return password from data table
+	 */
 	public String getPassword(String password) {
 		String result = "";
 		try {
@@ -69,7 +91,7 @@ public class LoginManager {
 			stmt = c.createStatement();
 			
 			
-			
+			//SQL query statement to retrieve password from login data table
 			ResultSet rs = stmt.executeQuery("Select * FROM login WHERE passwords = '" + password + "';");
 			
 			while (rs.next()) {
