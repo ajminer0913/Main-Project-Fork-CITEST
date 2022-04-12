@@ -191,7 +191,9 @@ public class Create extends CrudOperator {
 		endDate = "2022-06-30";
 		yearToDate = reader.readFinanceSummary( startDate, endDate);
 		
-		String report = january + february + march + april + may + june + yearToDate;
+		String report = "January : \n\t" + january + "\nFebruary : \n\t" + february +
+				"\nMarch : \n\t" + march + "\nApril : \n\t" + april +"\nMay : \n\t" +
+				may + "\nJune : \n\t" + june + "\nTotal : \n\t" + yearToDate;
 		
 		return report;
 	}
@@ -212,4 +214,5 @@ public class Create extends CrudOperator {
 		return report;
 	}
 	
+
 }
