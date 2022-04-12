@@ -43,12 +43,12 @@ public class MainMenuFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		//Welcome Label
 		JLabel lblNewLabel = new JLabel("Welcome to Spectacular Barracudas");
 		lblNewLabel.setBounds(128, 11, 271, 14);
 		contentPane.add(lblNewLabel);
-		
+
 		//Inventory Button
 		JButton btnNewButton = new JButton("Inventory");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -61,11 +61,24 @@ public class MainMenuFrame extends JFrame {
 		});
 		btnNewButton.setBounds(56, 106, 135, 23);
 		contentPane.add(btnNewButton);
-		
+
 		//Customer Orders button
 		JButton btnNewButton_1 = new JButton("Customer Orders");
 		btnNewButton_1.setBounds(237, 106, 135, 23);
 		contentPane.add(btnNewButton_1);
+
+		//Finance Button
+		JButton btnNewButton_3 = new JButton("Finance");
+		btnNewButton_3.addActionListener(new ActionListener() {
+			//Finance Button action
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				FinanceFrame finance = new FinanceFrame();
+				finance.setVisible(true);
+			}
+		});
+		btnNewButton_3.setBounds(146, 186, 135, 23);
+		contentPane.add(btnNewButton_3);
 		
 		//Sign Out Button
 		JButton btnNewButton_2 = new JButton("Sign Out");
@@ -83,11 +96,11 @@ public class MainMenuFrame extends JFrame {
 					login.setVisible(true);
 					JOptionPane.showMessageDialog(null, "You've Logged Out of Your Account");
 				}
-				
+
 			}
 		});
 		btnNewButton_2.setBounds(10, 7, 89, 23);
 		contentPane.add(btnNewButton_2);
-		
+
 	}
 }

@@ -191,7 +191,8 @@ try {
 	 * 
 	 * @param date
 	 */
-	public void readFinance(String date) {
+	public String readFinance(String date) {
+		String message = ""; 
 		try {
 					
 					Connection c = null;
@@ -203,24 +204,31 @@ try {
 					stmt = c.createStatement();
 					
 					//query to return total orders and profit for a specific day
-					ResultSet rs = stmt.executeQuery("Select * FROM finance WHERE date = '" + date + "';");
+					ResultSet rs = stmt.executeQuery("Select * FROM finance WHERE dates = '" + date + "';");
+					
+					int orders = 0;
+					float profit = 0;
 					
 					//loop to set and print orders and profit from finance table
 					while(rs.next()) {
-						int orders = rs.getInt("orders");
-		                float profit = rs.getFloat("profit");
+						orders = rs.getInt("orders");
+		                profit = rs.getFloat("profit");
 		                
 		                System.out.println("");
 		                System.out.println("Number of Orders: " + orders);
 		                System.out.println("Total Profit: " + profit);
 		                System.out.println("");
 					}
+					
+					message = "Number of Orders : " + orders + "\nTotalProfit : $" + profit ;
+					
 					rs.close();
 					stmt.close();
 				}catch (Exception e) {
 					e.printStackTrace();
 					System.exit(1);
 				}
+			return message;
 			}
 	
 	/**
@@ -283,9 +291,10 @@ try {
 				orders = orders + dailyOrders;
 				
 			}
+			
+			profit = (float) (Math.round(profit * 100.0) / 100.0);
 			//this string is returned from method and just gives a basic financially summary
-			report = "Total Orders From " + startDate + " To " + endDate + " : " + orders + ".\n Profit "
-					+ "From " + startDate + " To " + endDate + " : " + profit + ".\n";
+			report = "Orders : " + orders + "\n Profit : $" + profit + ".\n";
 			
 			rs.close();
 			stmt.close();
@@ -401,4 +410,52 @@ try {
 		System.exit(1);
 	}
     }
+	
+	/**
+	 * Method to get all data from the database into JTable for use in the GUI
+	 * @return array of objects to be used for jTable
+	 */
+	public Object[][] readAllFinance() {
+		Object[][] data = null;
+		try{
+			
+			Connection c = null;
+			c = CrudOperator.connect();
+		
+			Statement stmt = null;
+			c.setAutoCommit(false);
+			stmt = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
+	                ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM finance;");
+
+			int rowCount = getRowCount(rs); // Row Count
+			int columnCount = getColumnCount(rs); // Column Count
+
+			data = new Object[rowCount][columnCount];
+
+			// Starting from First Row for Iteration
+			rs.beforeFirst();
+
+			int i = 0;
+			
+			while (rs.next()) {
+
+				int j = 0;
+
+				data[i][j++] = rs.getString("dates");
+				data[i][j++] = rs.getInt("orders");
+				data[i][j++] = rs.getFloat("profit");
+
+				i++;
+			}
+			 
+			rs.close();
+			stmt.close();
+		
+	}catch (Exception e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+		return data;
+	}
 }
