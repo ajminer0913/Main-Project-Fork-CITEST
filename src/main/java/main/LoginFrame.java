@@ -91,7 +91,7 @@ public class LoginFrame extends JFrame {
 				String storedUsername = manager.getUsername(uInput);
 				String storedPassword = manager.getPassword(pInput);
 				
-				//checking if the inputed username and password matches the ones in the database
+				//checking if the inputed username and password matches the ones in the database 
 				if((uInput.equals(storedUsername) && pInput.equals(storedPassword)) && (storedUsername != "" && storedPassword != "")) {
 					dispose();
 					MainMenuFrame menu = new MainMenuFrame();
