@@ -92,9 +92,9 @@ public class SignUpFrame extends JFrame {
 				String uInput = usernameInput.getText();
 				String pInput = passwordInput.getText();
 				String pFInput = firstPassword.getText();
-				
+				System.out.println(uInput != "" && pInput != "");
 				//checking if the passwords entered match
-				if(pFInput.equals(pInput)) {
+				if(pFInput.equals(pInput) && (!uInput.equals("") && !pInput.equals("") && !pFInput.equals(""))) {
 					//stores username and password into database
 					manager.setUsernamePassword(uInput, pInput);
 					//switches back to login
