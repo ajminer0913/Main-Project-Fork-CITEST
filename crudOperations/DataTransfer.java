@@ -10,6 +10,11 @@ public class DataTransfer {
 	private float inventoryCost;
 	private float inventorySale;
 	private String inventorySupID;
+	
+	private String custEmail;
+	private int custLocation;
+	private String custProductID;
+	private int custQuantity;
 	/**
 	 * Data Transfer Constructor
 	 */
@@ -84,5 +89,38 @@ public class DataTransfer {
 	 */
 	public String getInventorySupID() {
 		return inventorySupID;
+	}
+	
+	//-----------------------------------------------------------------------
+	public void setCustomerEmail(String newEmail) {
+		custEmail = newEmail;
+	}
+	
+	public String getCustomerEmail() {
+		return custEmail;
+	}
+	
+	public void setCustomerLocation(int newLocation) {
+		custLocation = newLocation;
+	}
+	
+	public int getCustomerLocation() {
+		return custLocation;
+	}
+	
+	public void setCustomerProductID(String newID) {
+		custProductID = newID;
+	}
+	
+	public String getCustomerProductID() {
+		return custProductID;
+	}
+	
+	public void setCustomerQuantity(int newQuantity) {
+		custQuantity = newQuantity;
+	}
+	
+	public int getCustomerQuantity() {
+		return custQuantity;
 	}
 }
