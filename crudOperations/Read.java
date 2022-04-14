@@ -65,6 +65,8 @@ public class Read extends CrudOperator {
 		}
 		return pogo;
 	}
+	
+	
 	/**
 	 * Method to get all data from the database into JTable for use in the GUI
 	 * @return array of objects to be used for jTable
@@ -115,7 +117,9 @@ public class Read extends CrudOperator {
 		return data;
 	}
 	
-	public void readCustOrder(String custEmail) {
+	
+	public DataTransfer readOrder(String custEmail) {
+		DataTransfer pogo = new DataTransfer();
 try {
 			
 			Connection c = null;
@@ -129,17 +133,27 @@ try {
 			ResultSet rs = stmt.executeQuery("Select * FROM cust_orders WHERE cust_email = '" + custEmail + "';");
 			
 			while(rs.next()) {
+				String dateRet = rs.getString("date");
 				String emailRet = rs.getString("cust_email");
                 int locationRet = rs.getInt("cust_location");
                 String productRet = rs.getString("product_id");
                 int quantityRet = rs.getInt("product_quantity");
                 
+                /*
                 System.out.println("");
                 System.out.println("EMAIL: " + emailRet);
                 System.out.println("LOCATION: " + locationRet);
                 System.out.println("PRODUCT ID " + productRet);
                 System.out.println("QUANTITY: " +quantityRet);
                 System.out.println("");
+                */
+                
+                //Using Transfer Object to Store Data
+                pogo.setCustomerDate(custEmail);
+                pogo.setCustomerEmail(emailRet);
+                pogo.setCustomerLocation(locationRet);
+                pogo.setCustomerProductID(productRet);
+                pogo.setCustomerQuantity(quantityRet);
 			}
 			rs.close();
 			stmt.close();
@@ -147,7 +161,115 @@ try {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		return pogo;
 	}
+	
+	
+	/**
+	 * Method to get all data from the database into JTable for use in the GUI
+	 * @return array of objects to be used for jTable
+	 */
+	public Object[][] readAllOrders() {
+		Object[][] data = null;
+		try{
+			
+			Connection c = null;
+			c = CrudOperator.connect();
+		
+			Statement stmt = null;
+			c.setAutoCommit(false);
+			stmt = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
+	                ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT date, cust_email, cust_location, product_id, product_quantity from cust_orders;");
+
+			int rowCount = getRowCount(rs); // Row Count
+			int columnCount = getColumnCount(rs); // Column Count
+
+			data = new Object[rowCount][columnCount];
+
+			// Starting from First Row for Iteration
+			rs.beforeFirst();
+
+			int i = 0;
+			
+			while (rs.next()) {
+
+				int j = 0;
+
+				data[i][j++] = rs.getString("date");
+				data[i][j++] = rs.getString("cust_email");
+				data[i][j++] = rs.getInt("cust_location");
+				data[i][j++] = rs.getString("product_id");
+				data[i][j++] = rs.getInt("product_quantity");
+
+				i++;
+			}
+			 
+			rs.close();
+			stmt.close();
+		
+	}catch (Exception e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+		return data;
+	}
+
+	
+	/**
+	 * Method to get specific data from the database into JTable for use in the GUI
+	 * @return array of objects to be used for jTable
+	 */
+	public Object[][] readSpecOrders(String custEmail) {
+		Object[][] data = null;
+		try{
+			
+			Connection c = null;
+			c = CrudOperator.connect();
+		
+			Statement stmt = null;
+			c.setAutoCommit(false);
+			stmt = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, 
+	                ResultSet.CONCUR_UPDATABLE);
+			ResultSet rs = stmt.executeQuery("SELECT * FROM cust_orders WHERE cust_email = '" + custEmail + "';");
+
+			System.out.print(custEmail);
+			
+			
+			int rowCount = getRowCount(rs); // Row Count
+			int columnCount = getColumnCount(rs); // Column Count
+
+			data = new Object[rowCount][columnCount];
+
+			// Starting from First Row for Iteration
+			rs.beforeFirst();
+
+			int i = 0;
+			
+			while (rs.next()) {
+
+				int j = 0;
+
+				data[i][j++] = rs.getString("date");
+				data[i][j++] = rs.getString("cust_email");
+				data[i][j++] = rs.getInt("cust_location");
+				data[i][j++] = rs.getString("product_id");
+				data[i][j++] = rs.getInt("product_quantity");
+
+				i++;
+			}
+			 
+			rs.close();
+			stmt.close();
+		
+	}catch (Exception e) {
+		e.printStackTrace();
+		System.exit(1);
+	}
+		return data;
+	}
+
+	
 	// Method to get row Count from ResultSet Object
 	private int getRowCount(ResultSet rs) {
 

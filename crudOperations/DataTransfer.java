@@ -11,6 +11,7 @@ public class DataTransfer {
 	private float inventorySale;
 	private String inventorySupID;
 	
+	private String custDate;
 	private String custEmail;
 	private int custLocation;
 	private String custProductID;
@@ -92,6 +93,14 @@ public class DataTransfer {
 	}
 	
 	//-----------------------------------------------------------------------
+	public void setCustomerDate(String newDate) {
+		custDate = newDate;
+	}
+	
+	public String getCustomerDate() {
+		return custDate;
+	}
+	
 	public void setCustomerEmail(String newEmail) {
 		custEmail = newEmail;
 	}

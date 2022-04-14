@@ -92,7 +92,7 @@ public class Products extends JFrame {
 		JButton btnNewButton_2 = new JButton("Create");
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-Create creator = new Create();
+				Create creator = new Create();
 				
 				String productID = JOptionPane.showInputDialog(null, "Input Product ID");
 				String quantity = JOptionPane.showInputDialog(null, "Input Quantity");
