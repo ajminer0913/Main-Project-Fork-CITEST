@@ -64,6 +64,13 @@ public class MainMenuFrame extends JFrame {
 
 		//Customer Orders button
 		JButton btnNewButton_1 = new JButton("Customer Orders");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				Orders orders = new Orders();
+				orders.setVisible(true);
+			}
+		});
 		btnNewButton_1.setBounds(237, 106, 135, 23);
 		contentPane.add(btnNewButton_1);
 
