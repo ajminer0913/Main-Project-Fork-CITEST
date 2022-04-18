@@ -38,6 +38,9 @@ public class BotCommands extends ListenerAdapter {
         if(args[0].equalsIgnoreCase(prefix + "browse")){
             browse(event);
         }
+        if(args[0].equalsIgnoreCase(prefix + "processorder")) {
+            processOrder(event, args);
+        }
     }
 
     private void menu(MessageReceivedEvent event, String  user){
@@ -61,33 +64,37 @@ public class BotCommands extends ListenerAdapter {
         int quantity = Integer.parseInt(args[4]);
         String custId = event.getAuthor().getId();
 
-        event.getChannel().sendMessage("Date: " + currDate).queue();
-        event.getChannel().sendMessage("Email: " + email).queue();
-        event.getChannel().sendMessage("Location:" + location).queue();
-        event.getChannel().sendMessage("Product ID: " + product_id).queue();
-        event.getChannel().sendMessage("Quantity: " + quantity).queue();
-        //manually doing the SQL query since I can't really wait for the updated Create
-        try {
-            Statement stmt = null;
+        boolean isThere = checkStock(event,product_id,quantity);
 
-            conn.setAutoCommit(false);
-            stmt = conn.createStatement();
+        if(isThere) {
+            event.getChannel().sendMessage("Date: " + currDate).queue();
+            event.getChannel().sendMessage("Email: " + email).queue();
+            event.getChannel().sendMessage("Location:" + location).queue();
+            event.getChannel().sendMessage("Product ID: " + product_id).queue();
+            event.getChannel().sendMessage("Quantity: " + quantity).queue();
+            //manually doing the SQL query since I can't really wait for the updated Create
+            try {
+                Statement stmt = null;
 
-            String out = "INSERT INTO discord_orders(date, cust_email, cust_location, product_id, product_quantity,cust_id,order_status)"
-                    + "VALUES('" + currDate + "','" + email +"'," + location + ",'" + product_id +"'," + quantity + ",'" + custId + "','Processing');";
+                conn.setAutoCommit(false);
+                stmt = conn.createStatement();
 
-            stmt.executeUpdate(out);
-            stmt.close();
-            conn.commit();
-            conn.close();
+                String out = "INSERT INTO discord_orders(date, cust_email, cust_location, product_id, product_quantity,cust_id,order_status)"
+                        + "VALUES('" + currDate + "','" + email + "'," + location + ",'" + product_id + "'," + quantity + ",'" + custId + "','Processing');";
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            event.getChannel().sendMessage("Error in creating order").queue();
-            ordersuccess = false;
-        }
-        if(ordersuccess){
-            event.getChannel().sendMessage("Order Successfully Created").queue();
+                stmt.executeUpdate(out);
+                stmt.close();
+                conn.commit();
+                conn.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                event.getChannel().sendMessage("Error in creating order").queue();
+                ordersuccess = false;
+            }
+            if (ordersuccess) {
+                event.getChannel().sendMessage("Order Successfully Created").queue();
+            }
         }
     }
     private void pastOrders(MessageReceivedEvent event, String[] args){
@@ -155,6 +162,80 @@ public class BotCommands extends ListenerAdapter {
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean checkStock(MessageReceivedEvent event, String prodId, int quant){
+        Connection conn = cust.connect();
+
+        boolean isThere = true;
+        try{
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM products WHERE product_id = '" + prodId.toUpperCase() + "';");
+
+            while(rs.next()){
+                int qt = rs.getInt("quantity");
+                if(quant > qt){
+                    event.getChannel().sendMessage("Insufficient Quantity").queue();
+                    isThere = false;
+                }
+            }
+
+        } catch (Exception e){
+            e.printStackTrace();
+            event.getChannel().sendMessage("Product not found").queue();
+            isThere = false;
+        }
+
+        return isThere;
+    }
+
+    public void processOrder(MessageReceivedEvent event, String[] args){
+        Connection conn = cust.connect();
+        String prodId = null;
+        int discordOrderId = 0;
+        int quant = 0;
+        int orderQuant = 0;
+        String status = "";
+        try{
+            discordOrderId = Integer.parseInt(args[1]);
+            conn.setAutoCommit(false);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM discord_orders WHERE order_id = " + discordOrderId + ";");
+
+            while(rs.next()){
+                prodId = rs.getString("product_id");
+                quant = rs.getInt("product_quantity");
+                status = rs.getString("order_status");
+                System.out.println("test 1: " + prodId +"," + quant);
+            }
+
+            if(status.equals("Processing")) {
+                rs = stmt.executeQuery("SELECT * FROM  products WHERE product_id = '" + prodId + "';");
+
+                while (rs.next()) {
+                    orderQuant = rs.getInt("quantity");
+
+                    System.out.println("test 2:" + orderQuant);
+                }
+
+                quant = orderQuant - quant;
+                System.out.println("New Quant: " + quant);
+                rs = stmt.executeQuery("UPDATE products SET quantity = " + quant + " WHERE product_id = '" + prodId + "';");
+                conn.commit();
+            }else {
+                event.getChannel().sendMessage("Order already processed").queue();
+            }
+            rs.close();
+            stmt.close();
+            conn.commit();
+            conn.close();
+
+        } catch (Exception e){
+            e.printStackTrace();
+            event.getChannel().sendMessage("Order Not Found").queue();
+
         }
     }
 }
