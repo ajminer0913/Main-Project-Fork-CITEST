@@ -197,6 +197,9 @@ public class BotCommands extends ListenerAdapter {
         int discordOrderId = 0;
         int quant = 0;
         int orderQuant = 0;
+        double wholeSale = 0;
+        double salePrice = 0;
+        String supplier_id = "";
         String status = "";
         try{
             discordOrderId = Integer.parseInt(args[1]);
@@ -208,7 +211,6 @@ public class BotCommands extends ListenerAdapter {
                 prodId = rs.getString("product_id");
                 quant = rs.getInt("product_quantity");
                 status = rs.getString("order_status");
-                System.out.println("test 1: " + prodId +"," + quant);
             }
 
             if(status.equals("Processing")) {
@@ -216,14 +218,23 @@ public class BotCommands extends ListenerAdapter {
 
                 while (rs.next()) {
                     orderQuant = rs.getInt("quantity");
+                    wholeSale = rs.getDouble("wholesale_cost");
+                    salePrice = rs.getDouble("sale_price");
+                    supplier_id = rs.getString("supplier_id");
 
-                    System.out.println("test 2:" + orderQuant);
                 }
 
                 quant = orderQuant - quant;
-                System.out.println("New Quant: " + quant);
-                rs = stmt.executeQuery("UPDATE products SET quantity = " + quant + " WHERE product_id = '" + prodId + "';");
+                stmt.executeUpdate("DELETE FROM products WHERE product_id = '" + prodId + "';");
                 conn.commit();
+
+                stmt.executeUpdate("INSERT INTO products VALUES\n" +
+                        "('" + prodId + "'," + quant + "," + wholeSale + "," + salePrice + ",'" + supplier_id + "');");
+                conn.commit();
+
+                stmt.executeUpdate("UPDATE discord_orders SET  order_status = 'Complete' WHERE order_id = '" + discordOrderId + "';");
+                conn.commit();
+                event.getChannel().sendMessage("Order processed!").queue();
             }else {
                 event.getChannel().sendMessage("Order already processed").queue();
             }
