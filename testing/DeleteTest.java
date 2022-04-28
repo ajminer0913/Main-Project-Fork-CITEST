@@ -29,7 +29,7 @@ class DeleteTest {
 		Delete deleter = new Delete();
 		Create creator = new Create();
 		Connection c = CrudOperator.connect();
-		creator.createInventoryItem();
+		creator.createInventoryItem("737", 23, 20.0f, 20.0f, "737");
 		
 		//Tests that the item created is in the inventory
 		try {
@@ -78,9 +78,6 @@ class DeleteTest {
 		System.out.println("------Test Done------");
 	}
 	
-	@Test
-	void testDeleteCustOrderMethod() {
-		//Implement later
-	}
+
 
 }

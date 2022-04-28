@@ -46,10 +46,12 @@ class ReadTest {
 		}
 		System.out.println("------Test Done------");
 	}
+	
 	/*
 	 * A method that tests the readCustOrder() method in the read class
 	 * is reading the correct data given customer email
 	 */
+	/*
 	@Test
 	void testReadCustOrder() {
 		System.out.println("------Read Method Test Running------");
@@ -77,6 +79,7 @@ class ReadTest {
 			System.exit(1);
 		}
 		System.out.println("------Test Done------");
-	}
+	} */
+	
 
 }
