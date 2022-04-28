@@ -24,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 public class Products extends JFrame {
 
@@ -51,19 +53,17 @@ public class Products extends JFrame {
 	 */
 	public Products() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 396, 374);
+		setBounds(100, 100, 564, 420);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
 		
 		//Read button
 		JButton btnNewButton_3 = new JButton("Read");
+		btnNewButton_3.setForeground(Color.WHITE);
+		btnNewButton_3.setBackground(Color.GRAY);
+		btnNewButton_3.setBounds(118, 5, 76, 23);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Read reader = new Read();
@@ -81,15 +81,15 @@ public class Products extends JFrame {
 				JOptionPane.showMessageDialog(null, "Product ID: " + id + "\n" + "Quantity: " + quantity + "\n" + "Cost: "+ cost + "\n" + "Sale Price: " + sale + "\n"+ "Supplier ID: " + supID);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 1;
-		gbc_btnNewButton_3.gridy = 0;
-		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
+		contentPane.setLayout(null);
+		contentPane.add(btnNewButton_3);
 		
 		
 		//Create button
 		JButton btnNewButton_2 = new JButton("Create");
+		btnNewButton_2.setForeground(Color.WHITE);
+		btnNewButton_2.setBackground(Color.GRAY);
+		btnNewButton_2.setBounds(204, 5, 76, 23);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Create creator = new Create();
@@ -110,15 +110,14 @@ public class Products extends JFrame {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 2;
-		gbc_btnNewButton_2.gridy = 0;
-		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
+		contentPane.add(btnNewButton_2);
 		
 		
 		//Update Button
 		JButton btnNewButton_1 = new JButton("Update");
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.GRAY);
+		btnNewButton_1.setBounds(290, 5, 76, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Update updater = new Update();
@@ -139,15 +138,14 @@ public class Products extends JFrame {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 0;
-		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		contentPane.add(btnNewButton_1);
 		
 		
 		//Delete Button
 		JButton btnNewButton = new JButton("Delete");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.GRAY);
+		btnNewButton.setBounds(376, 5, 76, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Delete deleter = new Delete();
@@ -165,13 +163,12 @@ public class Products extends JFrame {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 0;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		contentPane.add(btnNewButton);
 		
 		JButton btnNewButton_4 = new JButton("Back");
+		btnNewButton_4.setForeground(Color.WHITE);
+		btnNewButton_4.setBackground(Color.GRAY);
+		btnNewButton_4.setBounds(462, 5, 76, 23);
 		btnNewButton_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
@@ -179,32 +176,26 @@ public class Products extends JFrame {
 				menu.setVisible(true);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_4 = new GridBagConstraints();
-		gbc_btnNewButton_4.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton_4.gridx = 5;
-		gbc_btnNewButton_4.gridy = 0;
-		contentPane.add(btnNewButton_4, gbc_btnNewButton_4);
+		contentPane.add(btnNewButton_4);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 5;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
-		contentPane.add(scrollPane, gbc_scrollPane);
+		scrollPane.setBounds(5, 33, 533, 337);
+		contentPane.add(scrollPane);
 		
 		
 		//JTable Code
+		
 		Read reader = new Read();
 		Object[][] data = reader.readAll();
 		
 		String column[]={"Product ID","Quantity","Wholesale Price", "Sale Price", "Supplier ID"};
 		
 		table = new JTable(data, column);
+		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.GRAY));
 		scrollPane.setViewportView(table);
 		
 		Object[] row = new Object [5];
+		
 	}
 
 }

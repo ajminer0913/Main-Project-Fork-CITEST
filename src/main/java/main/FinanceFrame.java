@@ -24,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
 public class FinanceFrame extends JFrame {
 
@@ -51,19 +53,17 @@ public class FinanceFrame extends JFrame {
 	 */
 	public FinanceFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 362, 374);
+		setBounds(100, 100, 590, 426);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
 		
 		//Read Profits for a single day button
 		JButton btnNewButton_3 = new JButton("Read");
+		btnNewButton_3.setForeground(Color.WHITE);
+		btnNewButton_3.setBackground(Color.GRAY);
+		btnNewButton_3.setBounds(10, 5, 151, 23);
 		btnNewButton_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Read reader = new Read();
@@ -75,14 +75,14 @@ public class FinanceFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, message);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_3 = new GridBagConstraints();
-		gbc_btnNewButton_3.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_3.gridx = 1;
-		gbc_btnNewButton_3.gridy = 0;
-		contentPane.add(btnNewButton_3, gbc_btnNewButton_3);
+		contentPane.setLayout(null);
+		contentPane.add(btnNewButton_3);
 		
 		//Create Finance Report Unique Period
 		JButton btnNewButton_2 = new JButton("Unique Finance Report");
+		btnNewButton_2.setForeground(Color.WHITE);
+		btnNewButton_2.setBackground(Color.GRAY);
+		btnNewButton_2.setBounds(171, 5, 150, 23);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Create creater = new Create();
@@ -95,14 +95,13 @@ public class FinanceFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, message);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_2 = new GridBagConstraints();
-		gbc_btnNewButton_2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_2.gridx = 2;
-		gbc_btnNewButton_2.gridy = 0;
-		contentPane.add(btnNewButton_2, gbc_btnNewButton_2);
+		contentPane.add(btnNewButton_2);
 		
 		//Create Finance Report 
 		JButton btnNewButton_1 = new JButton("Finance Reoprt");
+		btnNewButton_1.setBackground(Color.GRAY);
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBounds(331, 5, 150, 23);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Create creater = new Create();
@@ -113,13 +112,12 @@ public class FinanceFrame extends JFrame {
 				JOptionPane.showMessageDialog(null, message);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton_1.gridx = 3;
-		gbc_btnNewButton_1.gridy = 0;
-		contentPane.add(btnNewButton_1, gbc_btnNewButton_1);
+		contentPane.add(btnNewButton_1);
 		//back button
 		JButton btnNewButton = new JButton("Back");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.GRAY);
+		btnNewButton.setBounds(491, 5, 73, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			//back button action
 			public void actionPerformed(ActionEvent e) {
@@ -128,19 +126,11 @@ public class FinanceFrame extends JFrame {
 				menu.setVisible(true);
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 0;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		contentPane.add(btnNewButton);
 				
 		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 6;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
-		contentPane.add(scrollPane, gbc_scrollPane);
+		scrollPane.setBounds(5, 33, 559, 343);
+		contentPane.add(scrollPane);
 		
 		//JTable Code
 		Read reader = new Read();
@@ -149,6 +139,7 @@ public class FinanceFrame extends JFrame {
 		String column[]={"Date","Orders","Profit"};
 		
 		table = new JTable(data, column);
+		table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) Color.GRAY));
 		scrollPane.setViewportView(table);
 		
 		Object[] row = new Object [5];
