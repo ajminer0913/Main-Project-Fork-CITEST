@@ -7,7 +7,11 @@ import java.sql.Statement;
 import org.junit.jupiter.api.Test;
 import crudOperations.*;
 public class UpdateTest {
-	
+	/**
+	 * A method that creates a new inventory product and then updates it
+	 * This method checks to see that the product is contains the updated information
+	 * Then deletes the product from the inventory
+	 */
 	@Test
 	public void testUpdateMethod() {
 		System.out.println("------Update Test Running------");
@@ -28,8 +32,19 @@ public class UpdateTest {
 			while(rs.next()) {
 				System.out.println("Testing Update");
 				int quanRet = rs.getInt("quantity");
+				float wholeRet = rs.getFloat("wholesale_cost");
+				float saleRet = rs.getFloat("sale_price");
+				String supRet = rs.getString("supplier_id");
+				
 				int expectedQuan = 27;
+				float expectedWhole = 73.0f;
+				float expectedSale = 37.0f;
+				String expectedSup = "373";
+				
 				assertEquals(expectedQuan, quanRet);
+				assertEquals(expectedWhole, wholeRet);
+				assertEquals(expectedSale, saleRet);
+				assertEquals(expectedSup,supRet);
 				System.out.println("Test Successful");
 			}
 			

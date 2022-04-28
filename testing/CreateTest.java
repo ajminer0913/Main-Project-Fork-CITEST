@@ -9,7 +9,11 @@ import org.junit.jupiter.api.Test;
 import crudOperations.*;
 
 class CreateTest {
-
+	/**
+	 * A method that uses the createInventoryItem method to create a new product in the inventory table
+	 * Then it checks that the product is in the table
+	 * Then deletes the product from the table
+	 */
 	@Test
 	void testCreateMethod() {
 		System.out.println("------Create Test Running------");
