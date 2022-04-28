@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import crudOperations.LoginManager;
 import javax.swing.JPasswordField;
 import java.awt.Font;
+import java.awt.Color;
 //import gui.LoginFrame;
 
 public class LoginFrame extends JFrame {
@@ -47,38 +48,48 @@ public class LoginFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.DARK_GRAY);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		//username label
 		JLabel lblNewLabel = new JLabel("Username");
-		lblNewLabel.setBounds(184, 70, 66, 14);
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(84, 58, 66, 14);
 		contentPane.add(lblNewLabel);
 		
 		//password label
 		JLabel lblNewLabel_1 = new JLabel("Password");
-		lblNewLabel_1.setBounds(184, 126, 67, 14);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBounds(84, 100, 67, 14);
 		contentPane.add(lblNewLabel_1);
 		
 		//Login label
 		JLabel lblNewLabel_2 = new JLabel("Login");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_2.setBounds(191, 11, 95, 14);
+		lblNewLabel_2.setForeground(Color.WHITE);
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lblNewLabel_2.setBounds(201, 11, 95, 14);
 		contentPane.add(lblNewLabel_2);
 		
 		//username text field
 		usernameInput = new JTextField();
-		usernameInput.setBounds(164, 95, 86, 20);
+		usernameInput.setForeground(Color.CYAN);
+		usernameInput.setBackground(Color.GRAY);
+		usernameInput.setBounds(164, 55, 125, 20);
 		contentPane.add(usernameInput);
 		usernameInput.setColumns(10);
 		
 		//password text field
 		passwordInput = new JPasswordField();
-		passwordInput.setBounds(164, 151, 89, 20);
+		passwordInput.setForeground(Color.WHITE);
+		passwordInput.setBackground(Color.GRAY);
+		passwordInput.setBounds(164, 97, 125, 20);
 		contentPane.add(passwordInput);
 		
 		//login button
 		JButton btnNewButton = new JButton("Login");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			//login action
 			public void actionPerformed(ActionEvent e) {
@@ -107,11 +118,13 @@ public class LoginFrame extends JFrame {
 				}
 			}
 		});
-		btnNewButton.setBounds(277, 199, 89, 23);
+		btnNewButton.setBounds(178, 153, 89, 23);
 		contentPane.add(btnNewButton);
 		
 		//Sign up button
 		JButton btnNewButton_1 = new JButton("Sign Up");
+		btnNewButton_1.setForeground(Color.WHITE);
+		btnNewButton_1.setBackground(Color.GRAY);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			//Sign Up action
 			public void actionPerformed(ActionEvent e) {
@@ -120,7 +133,7 @@ public class LoginFrame extends JFrame {
 				signIn.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(64, 199, 89, 23);
+		btnNewButton_1.setBounds(178, 187, 89, 23);
 		contentPane.add(btnNewButton_1);
 		
 		
