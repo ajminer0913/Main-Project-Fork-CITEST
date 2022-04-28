@@ -16,7 +16,7 @@ public class DataTransferTest {
 	 */
 	@Test
 	void testDataTransferObject() {
-		System.out.println("-----Test Running-----");
+		System.out.println("-----Data Transfer Test Running-----");
 		//Creating data transfer object (POGO)
 		DataTransfer pogo = new DataTransfer();
 		try {
@@ -38,7 +38,7 @@ public class DataTransferTest {
 				//sets values for int test
 				int quantRet = rs.getInt("quantity");
 				pogo.setInventoryQuantity(quantRet);
-				int expected2 = 5087;
+				int expected2 = 5086;
 				int result2 = pogo.getInventoryQuantity();
 				
 				float costRet = rs.getFloat("wholesale_cost");
@@ -55,6 +55,6 @@ public class DataTransferTest {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println("-----Test Done-----");
+		System.out.println("-----Test Done----- \n");
 	}
 }

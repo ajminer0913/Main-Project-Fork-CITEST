@@ -30,6 +30,7 @@ class DeleteTest {
 		Create creator = new Create();
 		Connection c = CrudOperator.connect();
 		creator.createInventoryItem("737", 23, 20.0f, 20.0f, "737");
+		System.out.println("Creating new Product: Product ID 737");
 		
 		//Tests that the item created is in the inventory
 		try {
@@ -39,10 +40,11 @@ class DeleteTest {
 			String productId = "737";
 			ResultSet rs = stmt.executeQuery("Select * FROM Products WHERE product_id = '" + productId + "';");
 			while (rs.next()) {
-
+				System.out.println("Checking Create");
 				String idRet = rs.getString("product_id");
 				String expected = "737";
 				assertEquals(expected, idRet);
+				System.out.println("Check is Sucessful");
 			}
 
 			rs.close();
@@ -53,6 +55,7 @@ class DeleteTest {
 		}
 		
 		//Calling the delete method
+		System.out.println("Deleting Product 737");
 		deleter.delete("737");
 		
 		//Testing that the delete method deleted the recently created inventory item
@@ -64,9 +67,10 @@ class DeleteTest {
 			ResultSet rs = stmt.executeQuery("Select * FROM Products WHERE product_id = '" + productId + "';");
 
 			if (rs.next() == false) {
-
+				System.out.println("Testing Delete");
 				assertFalse(rs.next());
 				assertEquals(false, rs.next());
+				System.out.println("Test Successful");
 
 			}
 			rs.close();
@@ -75,7 +79,7 @@ class DeleteTest {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println("------Test Done------");
+		System.out.println("------Test Done------ \n");
 	}
 	
 

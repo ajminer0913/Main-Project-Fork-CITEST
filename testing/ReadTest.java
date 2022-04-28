@@ -25,6 +25,7 @@ class ReadTest {
 		Read reader = new Read();
 		//Calling the method
 		reader.read("5TXAQVSQ1SPS");
+		System.out.println("Reading Product ID 5TXAQVSQ1SPS");
 		try {
 			Statement stmt = null;
 			Connection c = CrudOperator.connect();
@@ -33,9 +34,12 @@ class ReadTest {
 			String productId = "5TXAQVSQ1SPS";
 			ResultSet rs = stmt.executeQuery("Select * FROM Products WHERE product_id = '" + productId + "';");
 			while (rs.next()) {
+				
+				System.out.println("Testing Read");
 				String expected = "5TXAQVSQ1SPS";
 				String idRet = rs.getString("product_id");
 				assertEquals(expected, idRet);
+				System.out.println("Test Successful");
 			}
 
 			rs.close();
@@ -44,7 +48,7 @@ class ReadTest {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		System.out.println("------Test Done------");
+		System.out.println("------Test Done------ \n");
 	}
 	
 	/*
